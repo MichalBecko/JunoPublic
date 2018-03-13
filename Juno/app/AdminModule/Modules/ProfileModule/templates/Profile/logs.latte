@@ -1,0 +1,14 @@
+{block content}
+{include $blocksDir.'/datagrid.latte'}
+{include $blocksDir.'/tablesorter.latte'}
+
+<div class="container-fluid">
+    <div class="row page-content-header">
+        <h2>{_is.profile.myLogs}</h2>
+    </div>
+    <div class="row page-content-wrapper">
+        <div class="page-content-back">
+            {control logGrid}
+        </div>
+    </div>
+</div>

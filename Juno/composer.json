@@ -1,0 +1,53 @@
+{
+	"name": "Juno Testing tool",
+	"description": "Composer than manages Juno",
+	"homepage": "http://nette.org",
+	"type": "project",
+	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"authors": [
+		{
+			"name": "DENEVY Slovakia. s.r.o.",
+			"homepage": "https://denevy.eu"
+		}
+	],
+	"require": {
+		"dg/adminer-custom": "~1.7",
+		"nette/application": "^2.4",
+		"nette/bootstrap": "^2.4",
+		"nette/caching": "^2.5",
+		"nette/component-model": "^2.3",
+		"nette/database": "^2.4",
+		"nette/deprecated": "^2.3",
+		"nette/di": "^2.4",
+		"nette/finder": "^2.4",
+		"nette/forms": "^2.4",
+		"nette/http": "^2.4",
+		"nette/mail": "^2.4",
+		"nette/neon": "^2.4",
+		"nette/php-generator": "^2.4",
+		"nette/reflection": "^2.4",
+		"nette/robot-loader": "^2.4",
+		"nette/safe-stream": "^2.3",
+		"nette/security": "^2.4",
+		"nette/tokenizer": "^2.2",
+		"nette/utils": "2.4.9",
+		"latte/latte": "^2.4",
+		"tracy/tracy": "^2.4",
+		"kdyby/translation": "@dev",
+		"joseki/pdf-response": "^3.0",
+		"kdyby/doctrine": "^3.0",
+		"doctrine/doctrine-module": "@dev",
+		"kdyby/forms-replicator" : "@dev",
+		"ipub/visual-paginator": "dev-master",
+		"oro/doctrine-extensions": "dev-master",
+		"artexe/cachetoken": "dev-master",
+		"webchemistry/forms-multiplier": "^2.0",
+		 "symfony/property-access": "^3.4.3",
+		 "symfony/inflector": "^3.4.3",
+		 "ublaboo/responses": "^1.0.7",
+		 "symfony/polyfill-php70": "^1.6.0",
+		 "paragonie/random_compat": "^2.0.11",
+		"phpoffice/phpspreadsheet": "^1.1"
+
+	}
+}

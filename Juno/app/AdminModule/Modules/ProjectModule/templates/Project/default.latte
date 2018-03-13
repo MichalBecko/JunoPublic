@@ -1,0 +1,25 @@
+{block content}
+{include $blocksDir.'/jquery-ui.latte'}
+{include $blocksDir.'/datepicker.latte'}
+{include $blocksDir.'/datagrid.latte'}
+
+<div class="container-fluid">
+    <div class="row page-content-header">
+        {var $menuItem = $presenter->getCurrentMenuitem()}
+        <h2>
+            <span class="glyphicon glyphicon-{$menuItem->getGlyphicon()}"></span>
+            {$menuItem->getName()}
+            <button data-toggle="modal" data-target="#addProject" class="rola btn btn-custom-darkblue pull-right">
+                Vytvoriť projekt <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        </h2>
+    </div>
+    <div class="row page-content-wrapper">
+        <div class="page-content-back">
+            {control projectGrid}
+        </div>
+    </div>
+</div>
+
+<!--MODAL WINDOW FOR ADD PROJECT-->
+{include 'Blocks/addProject.latte'}

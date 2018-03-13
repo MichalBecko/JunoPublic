@@ -1,0 +1,62 @@
+{block content}
+<div class="container-fluid">
+    <div class="row page-content-header">
+        {var $menuItem = $presenter->getCurrentMenuitem()}
+        <h2>
+            <span class="glyphicon glyphicon-{$menuItem->getGlyphicon()}"></span>
+            {_"is.modulName.".$menuItem->getName()}
+            <button type="button" class="btn btn-custom-darkblue pull-right" data-toggle="modal" data-target="#addFolder">{_is.multimedia.addFolder} <span class="glyphicon glyphicon-plus"></span></button></h2>
+    </div>
+    <div class="row page-content-wrapper">
+            <div class="page-content-back">
+                {if count($multimediaFolders) > 0}
+                {foreach $multimediaFolders as $m}
+                <div class="col-md-1 multimedia-box">
+                    <a n:href="Multimedia:folder $m->getId()" class="normal-link">
+                        <div class="col-md-12 icon">
+                            <span class="glyphicon glyphicon-folder-close"></span>
+                        </div>
+                        <br class="clear">
+                        {$m->getName()}
+                    </a>
+                </div>
+                {/foreach}
+                {else}
+                    <div class="col-md-12">
+                        <p class="alert alert-warning no-margin" >{_is.default.noRecords}</p>
+                    </div>
+                {/if}
+                <br class="clear">
+            </div>
+    </div>
+</div>
+
+
+<!--MODAL WINDOW FOR ADDFOLDER-->
+    <div class="modal fade" id="addFolder" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        {form addFolder}
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">{_is.multimedia.addFolder}</h4>
+        </div>
+        <div class="modal-body">
+            <div class="">
+                <div class="form-group">
+                    {label name class => "control-label" /}
+                    {input name class => "form-control"}
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left strong" data-dismiss="modal">{_is.default.close}</button>
+            <button n:name="submit" class="btn btn-success">
+                  {_is.multimedia.addFolder} <span class="glyphicon glyphicon-ok"></span> 
+            </button>
+        </div>
+        {/form}
+      </div>
+    </div>
+    </div>
+    <!--END OF MODAL WINDOW FOR ADDFODLER-->

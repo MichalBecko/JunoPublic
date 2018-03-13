@@ -1,0 +1,16 @@
+{block datetimepicker}
+<link rel="stylesheet" href="{$basePath}/css/jquery.datetimepicker.css">
+<script src="{$basePath}/js/jquery.datetimepicker.js"></script>
+<script type="text/javascript">
+    
+    $(function() {
+        $(".datetimepicker").datetimepicker({
+            lang : "sk",
+            timepicker: false,
+            format : "d.m.Y H:i"
+        });
+        
+    });
+    
+</script>
+{/block}

@@ -1,0 +1,26 @@
+// tu musis este zhodit foreign key
+ALTER TABLE `test_plan_sprint_case`
+DROP `user_id`,
+ADD `status_id` int(11) NULL,
+ADD `forced_status_id` int(11) NULL AFTER `status_id`;
+
+create table test_plan_sprint_case_user (
+id int(11) auto_increment primary key,
+user_id int(11),
+test_plan_sprint_case_id int(11)
+);
+
+ALTER TABLE `test_step_execution`
+DROP FOREIGN KEY `test_step_execution_ibfk_3`;
+
+ALTER TABLE `test_step_execution`
+CHANGE `test_plan_sprint_id` `test_plan_sprint_case_id` int(11) NOT NULL AFTER `status_id`,
+ADD `test_case_id` int(11) NOT NULL AFTER `test_plan_sprint_case_id`,
+ADD FOREIGN KEY (`test_plan_sprint_case_id`) REFERENCES `test_plan_sprint_case` (`id`),
+ADD FOREIGN KEY (`test_case_id`) REFERENCES `test_case` (`id`);
+
+ALTER TABLE `test_plan_sprint_case_user`
+ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+// ESTE JEDEN CUDZI KLUC NA USERA
+
+// status_id musi mat default 1

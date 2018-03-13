@@ -1,0 +1,242 @@
+<div class="modal fade" id="addIssue" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            {form addIssueForm}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4>Založiť Issue</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4" style="border-right: 1px solid #eee;">
+
+                            <div class="form-group issueProject" style="border-bottom: 1px solid #eee;">
+                                <label for="testPlan" class="control-label">Projekt</label>
+                                <p>{$project->getName()}</p>
+                            </div>
+                            <script>
+                                $(function() {
+
+                                    function disableSelect(select) {
+                                        select.prop("disabled", true);
+                                        select.find("option:not(:first)").remove();
+                                    }
+
+                                    $(document).on("change", ".issueTestPlan select", function() {
+
+                                        var val = $(this).val();
+                                        var nextSelect = $(".issueTestSprint select");
+                                        $.nette.ajax({
+                                            url: {link RestIssues:getTestSprints},
+                                            data: {"testPlanID": val},
+                                            start: function() {
+                                                nextSelect.find("option:not(:first)").remove();
+
+                                                disableSelect($(".issueTestSet select"));
+                                                disableSelect($(".issueTestCase select"));
+                                                disableSelect($(".issueTestStep select"));
+                                            },
+                                            success: function(payload) {
+                                                var data = JSON.parse(payload.result);
+
+                                                $.each(data, function(key, val) {
+                                                    var option = "<option value='" + key + "'>"+val+"</option>";
+                                                    nextSelect.append(option);
+                                                });
+
+                                                nextSelect.prop("disabled", false);
+                                            }
+                                        });
+                                    });
+
+                                    $(document).on("change", ".issueTestSprint select", function() {
+
+                                        var val = $(this).val();
+                                        var nextSelect = $(".issueTestSet select");
+                                        $.nette.ajax({
+                                            url: {link RestIssues:getTestSets},
+                                            data: {"testSprintID": val},
+                                            start: function() {
+                                                nextSelect.find("option:not(:first)").remove();
+
+
+                                                disableSelect($(".issueTestCase select"));
+                                                disableSelect($(".issueTestStep select"));
+                                            },
+                                            success: function(payload) {
+                                                $.each(JSON.parse(payload.result), function(key, val) {
+                                                    var option = "<option value='" + key + "'>"+val+"</option>";
+                                                    nextSelect.append(option);
+                                                });
+                                                nextSelect.prop("disabled", false);
+                                            }
+                                        });
+                                    });
+
+                                    $(document).on("change", ".issueTestSet select", function() {
+
+                                        var val = $(this).val();
+                                        var testSprintID = $(".issueTestSprint select").val();
+                                        var nextSelect = $(".issueTestCase select");
+                                        $.nette.ajax({
+                                            url: {link RestIssues:getTestCases},
+                                            data: {
+                                                "testSetID": val,
+                                                "testSprintID": testSprintID
+                                            },
+                                            start: function() {
+                                                nextSelect.find("option:not(:first)").remove();
+
+                                                disableSelect($(".issueTestStep select"));
+                                            },
+                                            success: function(payload) {
+                                                $.each(JSON.parse(payload.result), function(key, val) {
+                                                    var option = "<option value='" + key + "'>"+val+"</option>";
+                                                    nextSelect.append(option);
+                                                });
+                                                nextSelect.prop("disabled", false);
+                                            }
+                                        });
+                                    });
+
+                                    $(document).on("change", ".issueTestCase select", function() {
+
+                                        var val = $(this).val();
+                                        var nextSelect = $(".issueTestStep select");
+                                        $.nette.ajax({
+                                            url: {link RestIssues:getTestSteps},
+                                            data: {"testCaseID": val},
+                                            start: function() {
+                                                nextSelect.find("option:not(:first)").remove();
+                                            },
+                                            success: function(payload) {
+                                                $.each(JSON.parse(payload.result), function(key, val) {
+                                                    var option = "<option value='" + key + "'>"+val+"</option>";
+                                                    nextSelect.append(option);
+                                                });
+                                                nextSelect.prop("disabled", false);
+                                            }
+                                        });
+                                    });
+
+                                });
+                            </script>
+                            {*TOTOOOOOOOOOOO*}
+                            <div class="form-group issueTestPlan" style="border-bottom: 1px solid #eee;">
+                                <label for="testPlan" class="control-label">Test Plan</label>
+                                <select name="testPlan" class="form-control">
+                                    <option value="">-</option>
+                                    {foreach $testPlans as $tp}
+                                        <option value="{$tp["id"]}">{$tp["name"]}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                            <div class="form-group issueTestSprint" style="border-bottom: 1px solid #eee;">
+                                <label for="testSprint" class="control-label"> Test Sprint</label>
+                                <select  name="testSprint" class="form-control" disabled>
+                                    <option value="">-</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group issueTestSet" style="border-bottom: 1px solid #eee;">
+                                <label for="testSet" class="control-label">Test Set</label>
+                                <select name="testSet" class="form-control" disabled>
+                                    <option value="">-</option>
+                                </select>
+                            </div>
+                            <div class="form-group issueTestCase" style="border-bottom: 1px solid #eee;">
+                                <label for="testCase" class="control-label"> Test Case</label>
+                                <select  name="testCase" class="form-control" disabled>
+                                    <option value="">-</option>
+                                </select>
+                            </div>
+                            <div class="form-group issueTestStep" style="border-bottom: 1px solid #eee;">
+                                <label for="testStep" class="control-label"> Test Step</label>
+                                <select  name="testStep" class="form-control" disabled>
+                                    <option value="">-</option>
+                                </select>
+                            </div>
+                            {*TUUUUUUUUUUUUUUUUUUUUU*}
+
+                            <div class="form-group" style="border-bottom: 1px solid #eee;">
+                                {label priorityId class => "control-label" /}
+                                {input priorityId class => "form-control"}
+                            </div>
+                            <div class="form-group">
+                                {label issueTypeId class => "control-label" /}
+                                {input issueTypeId class => "form-control"}
+                            </div>
+
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                {label name class => "control-label" /}
+                                {input name class => "form-control"}
+                            </div>
+                            <div class="form-group">
+                                {label description class => "control-label" /}
+                                {input description class => "form-control"}
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Prílohy </label>
+                                <div class="input-group input-group-sm multiplierContainer">
+                                    <input type="file" name="multimedia[]" multiple class="form-control">
+                                    <span class="input-group-btn">
+                                    <button type="button" class="btn btn-sm btn-default removeFromContainer"><span class="glyphicon glyphicon-remove red"></span></button>
+                                    <button type="button" class="btn btn-sm btn-default addToContainer"><span class="glyphicon glyphicon-plus green"></span></button>
+                                </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group assigned-id" style="border-bottom: 1px solid #eee;">
+                                <label class="control-label">Riešitel </label>
+                                <select  name="assigned_id" class="form-control">
+                                    <option value="">-</option>
+                                   {foreach $assignedUser as $key => $val}
+                                       <option value="{$key}">{$val}</option>
+                                   {/foreach}
+                                </select>
+                            </div>
+
+                            <ul class="list-unstyled issue-errors" style="display: none;">
+                                <li class="alert alert-danger">Niektoré súbory prekračujú maximálnu povolenú veľkosť.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button n:name="submit" class="btn btn-success addissuebutton"> Založiť issue<span class="glyphicon glyphicon-plus"></span></button>
+                    <button class="btn btn-default pull-left strong submitIssue ajax" data-dismiss="modal">Zatvoriť</button>
+                </div>
+            {/form}
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function() {
+        $(document).on("click", ".addToContainer", function() {
+
+            var dis = $(this);
+            var inputGroup = dis.closest(".multiplierContainer").eq(0);
+            var html = inputGroup.clone().wrap('<p/>').parent().html();
+
+            $(html).insertAfter(inputGroup);
+
+            return false;
+        });
+
+        $(document).on("click", ".removeFromContainer", function() {
+
+            var dis = $(this);
+            var inputGroup = dis.closest(".multiplierContainer").eq(0);
+            var count = inputGroup.parent().find(".multiplierContainer").length;
+
+            if (count > 1) {
+                inputGroup.remove();
+            }
+
+            return false;
+        });
+    });
+</script>

@@ -1,0 +1,103 @@
+{block content}
+<div class="container-fluid">
+    <div class="row page-content-header">
+        <h2><span class="glyphicon glyphicon-folder-open"></span> <strong>{$multimediaFolder->getName()}</strong>
+            <button class="btn btn-danger pull-right marg-10-left" data-toggle="modal" data-target="#deleteMultimediaFolder" data-link="{link deleteMultimediaFolder! $multimediaFolder->getId()}">
+                {_is.default.delete} <span class="glyphicon glyphicon-trash"></span>
+            </button>
+            <button type="button" class="btn btn-custom-darkblue pull-right" data-toggle="modal" data-target="#addFolder">
+                {_is.multimedia.addMultimedia} <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        </h2>
+	
+    </div>
+    <div class="row multimedias page-content-wrapper">
+        <div class="page-content-back">
+            {if count($multimedias) > 0}
+            {foreach $multimedias as $m}
+            <div class="col-md-2">
+                <a n:href="openMultimedia! $m->getId()" class="ajax normal-link" style="color: inherit;">
+                {if $m->isImage()}
+                <div class="multimedia-thumbnail rad-5 back-fff">
+                    <div class="multimediaImage img-thumbnail" style="border: none; background-image: url({$basePath}/{$m->getPath()})">
+                    </div>
+                    <p class="text-center">{$m->getName()|truncate:18}</p>
+                </div>
+                {else}
+                <div class="multimedia-thumbnail rad-5 back-fff">
+                    <div class="multimediaFile img-thumbnail" style="border: none; background-image: url({$basePath}/images/admin/files/{$m->getIcon()})">
+                    </div>
+                    <p class="text-center">{$m->getName()|truncate:18}</p>
+                </div>
+                {/if}
+                </a>
+            </div>    
+            {/foreach}
+            {else}
+            <div class="col-md-12">
+                <div class="alert alert-warning no-margin">{_is.default.noRecords}</div>
+            </div>
+            {/if}
+            <br class="clear">
+        </div>
+    </div>
+</div>
+<!--MODAL WINDOW FOR ADDMULTIMEDIA-->
+	<div class="modal fade" id="addFolder" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+	    {form addMultimedia}
+	    <div class="modal-header">
+	      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">{_is.multimedia.addToFolder} <strong>{$multimediaFolder->getName()}</strong></h4>
+	    </div>
+	    <div class="modal-body">
+		<div class="">
+		    <div class="form-group">
+			{label file /}
+			{input file }
+		    </div>
+		</div>
+	    </div>
+	    <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left strong" data-dismiss="modal">{_is.default.close}</button>
+                <button n:name="submit" class="btn btn-success">
+                    {_is.multimedia.addMultimedia} <span class="glyphicon glyphicon-ok"></span>
+                </button>
+	    </div>
+	    {/form}
+	  </div>
+	</div>
+	</div>
+	<!--END OF MODAL WINDOW FOR ADDMULTIMEDIA-->
+        <!--MODAL WINDOW FOR DELETE FOLDER-->
+	<div class="modal fade" id="deleteMultimediaFolder" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+	    <div class="modal-header">
+	      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">{_is.default.delete} <strong>{$multimediaFolder->getName()}</strong></h4>
+	    </div>
+	    <div class="modal-body">
+		<div class="">
+                    <p>{_is.multimedia.deleteBody, ["folder" => $multimediaFolder->getName(), "count" => count($multimedias)]|noescape}</p>
+		</div>
+	    </div>
+	    <div class="modal-footer">
+	      <button type="button" class="btn btn-default pull-left strong" data-dismiss="modal">{_is.default.close}</button>
+	      <a n:href="deleteMultimediaFolder! $multimediaFolder->getId()" class="btn btn-danger">
+                    {_is.default.delete} <span class="glyphicon glyphicon-trash"></span>
+              </a>
+	    </div>
+	  </div>
+	</div>
+	</div>
+	<!--END OF MODAL WINDOW FOR DELETEFOLDER-->
+{include $blocksDir.'/deleteAction.latte'}
+<!--MODAL WINDOW FOR MULTIMEDIA-->
+{snippet openedMultimedia}
+    {if $isMultimediaOpened != FALSE}
+        {include 'openedMultimedia.latte'}
+    {/if}
+{/snippet}
+<!--END OF MODAL WINDOW FOR MULTIMEDIA-->

@@ -1,0 +1,70 @@
+{block content}
+<div class="container-fluid">
+    <div class="row page-content-header" style="margin-top: 0px; margin-bottom: 0px; padding: 0px;">
+        <h2>
+            {include "../Blocks/menu.latte"}
+        </h2>
+    </div>
+    <div class="row page-content-wrapper">
+        <div class="page-content-back">
+            {form testPlanSprintRoleForm}
+                <h4>Zoznam test casov, ktoré má užívateľ <strong>{$tester->getFullName()}</strong> testovať</h4>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-striped table-hovered">
+                            <thead>
+                                <tr>
+                                    <th class="nowrap">Test SET</th>
+                                    <th>Test CASE</th>
+                                    <th class="text-center">Testovať</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {foreach $form['testPlanSets']->getComponents() as $testSetID => $testSet}
+                                    <tr class="testSetParent" data-testsetid="{$testSet->getName()}">
+                                        <td style="width: 175px;"><strong>{$testSetNames[$testSet->getName()]}</strong></td>
+                                        <td></td>
+                                        <td class="text-center nowrap">
+                                            <input type="checkbox" class="checkbox-lg testSetCheckbox" data-testsetid="{$testSet->getName()}">
+                                        </td>
+                                    </tr>
+                                    {foreach $testSet->getComponents() as $testPlanSprintCaseID => $testCases}
+                                    {var $somebodyAlreadyHasIT = FALSE}
+                                    {if array_key_exists($testPlanSprintCaseID, $preparedTestPlanSprintCases)}
+                                        {var $somebodyAlreadyHasIT = TRUE}
+                                    {/if}
+                                    <tr class="testCaseParent {if $somebodyAlreadyHasIT}warning{/if}" data-testsetid="{$testSet->getName()}">
+                                        <td></td>
+                                        <td>
+                                            <label style="font-weight: lighter;">{$testCases->caption}</label>
+                                            {if $somebodyAlreadyHasIT}
+                                                {var $names = ""}
+                                                {foreach $preparedTestPlanSprintCases[$testPlanSprintCaseID] as $username}
+                                                    {php $names = $names . $username["name"] . ' ' . $username["surname"]}
+                                                    {if !$iterator->isLast()}
+                                                    {php $names = $names . ", "}
+                                                    {/if}
+                                                {/foreach}
+                                                <span class="label label-warning" data-tooltip="tooltip" 
+                                                      title="Tento Test case už upravuje: {$names}"><span class="fa fa-warning"></span>
+                                                </span>
+                                            {/if}
+                                            
+                                        </td>
+                                        <td class="text-center nowrap">
+                                            <input type="checkbox" n:name="testPlanSets-$testSetID-$testPlanSprintCaseID" class="checkbox-big testCaseCheckbox">
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+                                {/foreach}
+                            </tbody>
+                        </table>
+                        <button n:is-allowed="Privilege::TEST_SPRINT_EDIT_ROLES" n:name="submit" class="btn btn-warning pull-right marg-10-top">{_is.default.edit} <span class="glyphicon glyphicon-edit"></span></button>
+                    </div>
+                </div>
+            {/form}
+        </div>
+    </div>
+</div>
+        
+{include 'Blocks/testPlanJS.latte'}

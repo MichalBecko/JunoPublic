@@ -1,0 +1,32 @@
+{block action}
+    {if $item->getId() > 1}
+
+        {if $item->archive == 1}
+            <a n:is-allowed="Privilege::USER_ARCHIVE" href="{$presenter->link("archiveUser!", $item->getId(), 0)}"
+                                                      class="btn btn-primary btn-sm btn-sm-betpad"
+               data-tooltip="tooltip" title="Odarchivovať užívateľa"><span class="fa fa-archive no-margin"></span>
+            </a>
+            <button n:is-allowed="Privilege::USER_DELETE"  type="button" class="btn btn-danger btn-sm btn-sm-betpad"
+               data-tooltip="tooltip" title="{_is.default.delete}" data-toggle="modal" data-target="#deleteAction"
+               data-link="{$presenter->link("deleteUser!", $item->getId())}">
+                <span class="glyphicon glyphicon-trash" ></span>
+            </button>
+        {else}
+            <a n:is-allowed="Privilege::USER_LOGIN_AS_SOMEBODY" href="{$presenter->link("loginAsSomebody!", $item->getId())}"
+                class="btn btn-custom-darkblue btn-sm btn-sm-betpad"
+                data-tooltip="tooltip" title="Prihlásiť sa"><span class="fa fa-sign-in no-margin"></span>
+            </a>
+            <a n:is-allowed="Privilege::USER_EDIT" href="{$presenter->link("User:editUser", $item->getId())}"
+                class="btn btn-custom-darkyellow btn-sm btn-sm-betpad"
+                data-tooltip="tooltip" title="Upraviť užívateľa"><span class="glyphicon glyphicon-edit no-margin"></span>
+            </a>
+            <a n:is-allowed="Privilege::USER_ARCHIVE" href="{$presenter->link("archiveUser!", $item->getId(), 1)}" class="btn btn-danger btn-sm btn-sm-betpad"
+               data-tooltip="tooltip" title="Archivovať užívateľa"><span class="fa fa-archive no-margin"></span>
+            </a>
+            <button n:is-allowed="Privilege::USER_DELETE" type="button" class="btn btn-danger btn-sm btn-sm-betpad" data-tooltip="tooltip" title="{_is.default.delete}" data-toggle="modal" data-target="#deleteAction" data-link="{$presenter->link("deleteUser!", $item->getId())}">
+                <span class="glyphicon glyphicon-trash" ></span>
+            </button>
+        {/if}
+
+    {/if}
+{/block}

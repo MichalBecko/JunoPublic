@@ -1,0 +1,101 @@
+{block content}
+
+<div class="container-fluid">
+    <div class="row page-content-header">
+        {var $menuItem = $presenter->getCurrentMenuitem()}
+        <h2>
+            <span class="glyphicon glyphicon-{$menuItem->getGlyphicon()}"></span>
+            {$menuItem->getName()}
+        </h2>
+    </div>
+    <div class="row page-content-wrapper">
+        <div class="page-content-back col-md-5">
+            <div >
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td colspan="2"><h2>{_is.help.informationSystem} <strong>{$appSetupService->informationSystemName}</strong></h2></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{_is.help.systemName}</td>
+                            <td>{$appSetupService->informationSystemName}</td>
+                        </tr>
+                        <tr>
+                            <td>{_is.help.numberOfModules}</td>
+                            <td>6</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+                        
+            <br class="clear">
+        </div>
+        <div class="page-content-back col-md-offset-1 col-md-6">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td colspan="2"><h2>{_is.help.informationAbout} <strong>{$appSetupService->developer["name"]}</strong></h2></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{_is.default.name}</td>
+                        <td>{$appSetupService->developer["name"]}</td>
+                    </tr>
+                    <tr>
+                        <td>{_is.help.ceo}</td>
+                        <td>{$appSetupService->developer["ceo"]}</td>
+                    </tr>
+                    <tr>
+                        <td>{_is.default.phoneNumber}</td>
+                        <td>{$appSetupService->developer["phone"]}</td>
+                    </tr>
+                    <tr>
+                        <td>{_is.help.phoneNumberHelpDesk}</td>
+                        <td>{$appSetupService->developer["phonedev"]}</td>
+                    </tr>
+                    <tr>
+                        <td>{_is.default.mail}</td>
+                        <td>{$appSetupService->developer["eMail"]}</td>
+                    </tr>
+                    <tr>
+                        <td>{_is.default.address}</td>
+                        <td>
+                            {$appSetupService->developer["street"]}<br>
+                            {$appSetupService->developer["city"]} {$appSetupService->developer["psc"]}<br>
+                            {$appSetupService->developer["state"]}                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{_is.default.facturation}</td>
+                        <td>
+                            {$appSetupService->developer["billingAddress"]["name"]}<br>
+                            {$appSetupService->developer["billingAddress"]["street"]}<br>
+                            {$appSetupService->developer["billingAddress"]["city"]} {$appSetupService->developer["billingAddress"]["psc"]}<br>
+                            {$appSetupService->developer["billingAddress"]["state"]}<br>
+                            IČO: {$appSetupService->developer["billingAddress"]["ic"]}<br>
+                            DIČ: {$appSetupService->developer["billingAddress"]["dic"]}<br>
+                            IČ DPH: {$appSetupService->developer["billingAddress"]["icdph"]}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{_is.help.links}</td>
+                        <td>
+                            <a href="https://www.denevy.eu">{_is.help.website}</a><br>
+                            <a href="https://www.facebook.com/denevy/">Facebook page</a><br>
+                            <a href="http://orsr.sk/vypis.asp?ID=404129&SID=2&P=0">{_is.help.register}</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table> 
+        </div>
+    </div>
+    <div class="row">
+        
+        <div class="col-md-6">
+            
+        </div>
+    </div>
+</div>

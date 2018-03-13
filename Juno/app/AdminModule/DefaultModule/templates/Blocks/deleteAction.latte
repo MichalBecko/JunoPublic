@@ -1,0 +1,27 @@
+<div class="modal fade" id="deleteAction" role="dialog" >
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">{_is.default.delete}</h4>
+            </div>
+            <div class="modal-body">
+                {_is.default.noBackAction}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left strong" data-dismiss="modal"><span class="glyphicon glyphicon-chevron-left"></span>{_is.default.back}</button>
+                <a href="#" class="btn btn-danger" >{_is.default.delete} <span class="glyphicon glyphicon-trash"></span></a>
+            </div>
+        </div>
+    </div>
+</div>
+            
+<script>    
+    $(document).on("show.bs.modal", function(e) {
+        
+        var deleteLink = $(e.relatedTarget).data("link");
+
+        var modal = $(this);
+        $("#deleteAction").find("a").attr("href", deleteLink);
+    });
+</script>

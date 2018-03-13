@@ -1,0 +1,93 @@
+{block content}
+<script>
+$(function() {
+    
+    window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '1905339146450462',
+          xfbml      : true,
+          version    : 'v2.11'
+        });
+        FB.AppEvents.logPageView();
+      };
+    
+     (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    
+    $(".fbsharer").on("click", function() {
+    
+        FB.ui({
+           method: 'share',
+           display: 'popup',
+           href: window.location.href 
+         }, function(response){});
+    
+         return false;
+    });
+    
+});
+
+  
+</script>
+
+<section class="section-clanok">
+    <div class="cover-akonato-clanok" style="background-image: url('{$basePath}/images/front/sauny/haley-phelps-119782.jpg') ">
+        <div class="prechod"></div>
+
+        <div class="cover-bottom">
+            <div class="container">
+                <header>
+                    <div class="container">
+                        <h1>{$article->title}</h1>
+                        <div class="hr"></div>
+                    </div>
+                </header>
+            </div>
+        </div>
+    </div>
+
+    <div class="akonato-top">
+        <div class="container">
+            <div class="article-paper">
+                <div class="paper-gradient"></div>
+                <div class="container">
+                    {$article->te|noescape}
+                </div>
+            </div>
+
+            <div class="pagination">
+                <div class="row">
+                    <div class="col-sm-4 left">
+                        <p><a href="#" onclick="window.history.back(); return false;">späť</a></p>
+                    </div>
+
+                    <div class="col-sm-4 center">
+                        <p><a href="#" class="fbsharer">zdielať</a></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+{include "../sluzby.latte"}
+
+<section>
+    <div class="container">
+        <a href="#">
+            <div class="cover-box"  style="background-image: url('{$basePath}/images/front/sauny/saunaofen_conceptr.jpg'); position: relative; z-index: 5">
+                <div class="cover-head">
+                    {text 16, "te"}
+                    
+                </div>
+            </div>
+        </a>
+    </div>
+</section>

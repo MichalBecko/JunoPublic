@@ -1,0 +1,19 @@
+{block tablesorter}
+<script src="{$basePath}/js/admin/jquery.tablesorter.min.js"></script>
+<script>
+    $(function() {
+
+        $("#tableSort").tablesorter({ 
+            // define a custom text extraction function 
+            textExtraction: function(node) { 
+                if ($(node).attr("sorter") === "custom") {
+                    return $(node).attr("data-value");
+                } else {
+                    return $(node).text();
+                }           
+            } 
+        }); 
+
+    });
+</script>
+{/block}

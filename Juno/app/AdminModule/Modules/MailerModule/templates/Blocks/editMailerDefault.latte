@@ -1,0 +1,36 @@
+{block editMailerDefault}
+{include $blocksDir.'/tinymce4.latte'}
+
+{var $id = $mailerDefault->getId()}
+{form editMailerDefaultForm-$id}
+<div class="modal fade" id="editMailerDefault" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">{_is.settings.editTemplate}</h4>
+            </div>
+            <div class="modal-body">
+                {control renderFormInput $form["name"]}
+                {control renderFormInput $form["subject"]}
+                {control renderFormInput $form["body"]}
+                {input id}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left strong" data-dismiss="modal">{_is.default.close}</button>
+                <button n:name="submit" class="btn btn-custom-darkyellow">{_is.default.edit} <span class="glyphicon glyphicon-edit"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+{/form}
+<script type="text/javascript">
+
+    $(function() {
+
+	$("#editMailerDefault").modal({});
+
+    });
+
+</script>
+{/block}

@@ -1,0 +1,119 @@
+<div class="row" style="margin-bottom: 20px;">
+        <div class="col-md-2 text-right">
+            <label for="selectTestPlan">Vyberte váš Test Plan</label>
+        </div>
+        <div class="col-md-3">
+            <select id="selectTestPlan" name="selectTestPlan" class="form-control">
+                <option></option>
+                {foreach $testerTestPlans as $testPlanIDD => $testPlann}
+                    <option value="{$testPlanIDD}"
+                        {ifCurrent :Admin:Project:TestExecution:testSprint}
+                            {if $testPlanIDD == $testPlan->getId()}
+                            selected="selected"
+                            {/if}
+                        {/ifCurrent}
+                    >{$testPlann}</option>
+                {/foreach}
+            </select>
+        </div>
+        <div class="col-md-2 text-right">
+            <label for="selectTestSprint">Vyberte váš Test Sprint</label>
+        </div>
+        <div class="col-md-3">
+            <select id="selectTestSprint" for="selectTestSprint" class="form-control"
+                    {ifCurrent :Admin:Project:TestExecution:testSprint}{else}disabled{/ifCurrent}>
+                <option></option>
+                {ifCurrent :Admin:Project:TestExecution:testSprint}
+                    {foreach $testerTestSprints as $testSprintInSelectID => $testSprintInSelect}
+                        <option class="realoption" value="{$testSprintInSelectID}"
+                                {if $testSprintInSelectID == $testSprint->getId()}
+                                    selected="selected"
+                                {/if}
+                        >{$testSprintInSelect}</option>
+                    {/foreach}
+                {/ifCurrent}
+            </select>
+        </div>
+        <div class="col-md-1 testExecutionButton" >
+            <a n:href="this" class="btn btn-sm btn-success col-md-12 {ifCurrent :Admin:Project:TestExecution:testSprint}{else}disabledButton{/ifCurrent}">ÍSŤ</a>
+        </div>
+    </div>
+    <script>
+    $(function() {
+
+        var userID = {$user->getId()|noescape};
+        var selectTestSprint = $("#selectTestSprint");
+        var selectTestPlan = $("#selectTestPlan");
+        var projectID = {$project->getId()};
+
+        //select change
+        $("#selectTestPlan").on("change", function() {
+
+            var testPlanID = $(this).val();
+
+            if (testPlanID == "") {
+                $(".testExecutionButton a").addClass("disabledButton");
+                cleanTestSprint();
+                return false;
+            }
+
+            $.nette.ajax({
+                url: {link RestTestExecution:getUserTestSprintsByTestPlan},
+                data: {
+                    userID: userID,
+                    testPlanID: testPlanID,
+                    projectID: projectID
+                },
+                start: function() {
+                    cleanTestSprint();
+                },
+                success: function(payload) {
+                    var result = JSON.parse(payload.result);
+
+                    $.each(result, function(key, value) {
+                        selectTestSprint.append($('<option class="realoption"></option>').val(key).html(value));
+                    });
+
+                    // enable it
+                    selectTestSprint.attr("disabled", false);
+                }
+            });
+        });
+
+        $("#selectTestSprint").on("change", function() {
+
+            var testSprintID = $(this).val();
+
+            if (testSprintID == "") {
+                $(".testExecutionButton a").addClass("disabledButton");
+                return false;
+            }
+
+            /* ENABLE BUTTON & add testSprintID*/
+            $(".testExecutionButton a").removeClass("disabledButton");
+            $(".testExecutionButton a").data("testSprintID", testSprintID);
+        });
+
+        /* 
+         * This is here just if onChange event fails
+         * */
+        $(".testExecutionButton a").on("click", function() {
+
+            var dis = $(this);
+            var testSprintID = $("#selectTestSprint").val();
+
+            var link = {link TestExecution:testSprint};
+            var linkWithID = link + "?testSprintID=" + testSprintID;
+
+            window.location.href= linkWithID;
+
+            return false;
+        });
+
+        function cleanTestSprint() {
+            selectTestSprint.attr("disabled", true);
+            selectTestSprint.find(".realoption").remove();
+        }
+
+    });
+    </script>

@@ -1,0 +1,11 @@
+{block menu}
+<ul class="projectmenu list-unstyled">
+    <li n:is-allowed="Privilege::DASHBOARD_MENU_ITEM"><a n:href="Dashboard:" class="dashboardli {if $tabName == "Dashboard"}active{/if}"><span class="fa fa-dashboard"></span> Dashboard</a></li>
+    <li n:is-allowed="Privilege::TEST_PLAN_MENU_ITEM"><a n:href="TestPlan:" class="testplanli {if $tabName == "TestPlan"}active{/if}"><span class="fa fa-book"></span> Test plan</a></li>
+    <li n:is-allowed="Privilege::TEST_ANALYSES_MENU_ITEM"><a n:href="TestAnalyses:" class="testanalysesli {if $tabName == "TestAnalyses"}active{/if}"><span class="fa fa-briefcase"></span> Test analyses</a></li>
+    <li n:is-allowed="Privilege::TEST_EXECUTION_MENU_ITEM"><a n:href="TestExecution:" class="testexecutionli {if $tabName == "TestExecution"}active{/if}"><span class="fa fa-play"></span> Test execution</a></li>
+    <li n:is-allowed="Privilege::ISSUES_MENU_ITEM"><a n:href="Issues:" class="issuesli {if $tabName == "Issues"}active{/if}"><span class="fa fa-cog"></span> Issues</a></li>
+    <li n:is-allowed="Privilege::SETTINGS_MENU_ITEM"><a n:href="Settings:" class="settingsli {if $tabName == "Settings"}active{/if}"><span class="fa fa-cog"></span> Settings</a></li>
+    <br class="clear">
+</ul>
+{/block}

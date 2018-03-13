@@ -1,0 +1,126 @@
+<div class="modal fade" id="cloneTestCase" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            {form addTestCaseForm}
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Vytvoriť nový Test Case
+                    
+                    </h4>
+            </div>
+            <div class="modal-body">
+                {php $form["testSet"]->setDefaultValue($cloneTestCase->testSet->id)}
+                {php $form["priority"]->setDefaultValue($cloneTestCase->priority)}
+                {php $form["description"]->setDefaultValue($cloneTestCase->description)}
+                {php $form["result"]->setDefaultValue($cloneTestCase->result)}
+                {php $form["approved"]->setDefaultValue($cloneTestCase->approved)}
+
+                <div class="">
+                    <div class="form-group">
+                        {label testSet class => "control-label" /}
+                        {input testSet class => "testCaseHiddenID form-control"}
+                    </div>
+                    <div class="form-group">
+                        {label name class => "control-label" /}
+                        {input name class => "form-control"}
+                    </div>
+                    <div class="form-group">
+                        <label for="tagselect">Tagy</label>
+                        <select id="tagselectclone" name="tagselect[]" class="form-control" multiple="multiple">
+                            <option></option>
+                            {foreach $cloneTestCase->getTags() as $tag}
+                                <option selected value="{$tag->name}">{$tag->name}</option>
+                            {/foreach}
+                            {foreach $tagsTestCase as $tagTestCase}
+                                {if !in_array($tagTestCase, $cloneTestCase->getTags(TRUE))}
+                                    <option>{$tagTestCase}</option>
+                                {/if}
+                            {/foreach}
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-top: 50px;">
+                        {label description class => "control-label" /}
+                        {input description class => "form-control"}
+                    </div>
+                    <div class="form-group">
+                        {label result class => "control-label" /}
+                        {input result class => "form-control"}
+                    </div>
+                    <div class="form-group">
+                        {label priority class => "control-label" /}
+                        {input priority class => "form-control"}
+                    </div>
+                    <div n:is-allowed="Privilege::SET_APPROVED_TEST_CASE" class="form-group">
+                        {label approved class => "control-label" /}
+                        {input approved class => "form-control"}
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <label class="control-label">Prílohy</label>
+                        <div class="input-group input-group-sm multiplierContainer">
+                            <input type="file" name="multimedia[]" multiple class="form-control">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-sm btn-default removeFromContainer"><span class="glyphicon glyphicon-remove red"></span></button>
+                                <button type="button" class="btn btn-sm btn-default addToContainer"><span class="glyphicon glyphicon-plus green"></span></button>
+                            </span>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <label class="control-label">Test Stepy</label>
+                        <div class="row">
+                            <div class="col-md-5">Precondition</div>
+                            <div class="col-md-5">Expected result</div>
+                        </div>
+                        {foreach $cloneTestCase->getTestSteps() as $cloneTestSteps}
+                        <div class="row multiplierContainer" style="margin-bottom: 10px;">
+                            <div class="col-md-5">
+                                <textarea name="testSteps[precondition][]" class="form-control">{$cloneTestSteps->precondition}</textarea>
+                            </div>
+                            <div class="col-md-5">
+                                <textarea name="testSteps[expectedResult][]" class="form-control">{$cloneTestSteps->expectedResult}</textarea>
+                            </div>
+                            <div class="col-md-2 text-right">
+                                <button type="button" class="btn btn-sm btn-default removeFromContainer"><span class="glyphicon glyphicon-remove red"></span></button>
+                                <button type="button" class="btn btn-sm btn-default addToContainer"><span class="glyphicon glyphicon-plus green"></span></button>
+                            </div>
+                        </div>
+                        {/foreach}
+
+                        <div class="row multiplierContainer" style="margin-bottom: 10px;">
+                            <div class="col-md-5">
+                                <textarea name="testSteps[precondition][]" class="form-control"></textarea>
+                            </div>
+                            <div class="col-md-5">
+                                <textarea name="testSteps[expectedResult][]" class="form-control"></textarea>
+                            </div>
+                            <div class="col-md-2 text-right">
+                                <button type="button" class="btn btn-sm btn-default removeFromContainer"><span class="glyphicon glyphicon-remove red"></span></button>
+                                <button type="button" class="btn btn-sm btn-default addToContainer"><span class="glyphicon glyphicon-plus green"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                  <button type="button" class="btn btn-default pull-left strong" data-dismiss="modal">{_is.default.close}</button>
+                  <button n:name="submit" class="btn btn-success">{_is.default.add} <span class="glyphicon glyphicon-ok"></span></button>
+            </div>
+            {/form}
+        </div>
+    </div>
+</div>
+            
+<script>
+    $(function() {
+
+        $("#tagselectclone").select2({
+            tags: true,
+            tokenSeparators: [',', ' '],
+            placeholder: "Zadajte tagy ..."
+        });
+
+        $("#cloneTestCase").modal("show");
+        
+    });
+</script>

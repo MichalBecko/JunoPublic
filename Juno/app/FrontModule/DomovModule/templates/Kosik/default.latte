@@ -1,0 +1,180 @@
+{block content}
+
+<section class="section-kosik">
+    <div class="container">
+
+        <h1>{text 35, "title"}</h1>
+        <div class="kosik-box">
+            {foreach $products as $pro}
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="kosik-img" style="background-image: url('{$basePath}/{$pro->getMultimedia()->getPath()}')"></div>
+                    </div>
+
+                    <div class="col-md-9 kosik-text">
+                        <a href="#">{$pro->category->parent->getTr($locale)->title}</a> / <a href="#">{$pro->category->getTr($locale)->title}</a>
+                        <h1>{$pro->getTr($locale)->title}</h1>
+                        <a href="#">{$pro->getTr($locale)->creator}</a>
+
+                        <div class="product-price group">
+                         <p>{$cart->getQuantityByID($pro->id)}ks</p>
+                         <span>
+                            {$pro->getTr($locale)->getPrice()}€ <small>s dph <br>
+                            {$pro->getTr($locale)->getPriceWithoutTax()}€ bez dph</small>
+                        </span>
+                            <a n:href="Kategoria:produkt $pro->slug" target="_blank">detail</a>
+                        </div>
+
+                        <div class="delete-btn">
+                            <a n:href="removeFromCart! $pro->id">X</a>
+                        </div>
+                    </div>
+                </div>
+            {/foreach}
+        </div>
+
+        <div class="kosik-form-box">
+            <h1>{text 36, "title"}</h1>
+
+            <div class="form-box-user">
+                {form orderForm}
+                    <div class="user-form-top">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="name">{text 39, "title"}</label>
+                                <input type="text" id="name" n:name="name" placeholder="{text 32, "title"}">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="email">{text 40, "title"}</label>
+                                <input type="email" id="email" n:name="mail" placeholder="@">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="tel">{text 41, "title"}</label>
+                                <input type="text" id="tel" n:name="tel" placeholder="{text 47, "title"}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="address">{text 42, "title"}</label>
+                                <input type="text" id="address" n:name="street" placeholder="{text 48, "title"}">
+                            </div>
+
+                            <div class="col-md-4 clearfix">
+                                <label for="country">{text 43, "title"}</label>
+                                <input type="text" id="country" n:name="city" placeholder="{text 49, "title"}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="tel">{text 44, "title"}</label>
+                                <input type="text" id="tel" n:name="psc" placeholder="{text 50, "title"}">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="tel">{text 45, "title"}</label>
+                                <input type="text" id="tel" n:name="state" placeholder="{text 51, "title"}">
+                            </div>
+                            <input type="hidden" n:name="locale" value="{$locale}">
+                            {text 46, "te"}
+                        </div>
+                    </div>
+
+                    <div style="width: 100%; height: 50px"></div>
+
+                    <div class="user-form-bottom">
+                        <div class="row">
+                            {*input paymentType*}
+                            <p>
+                                <input type="radio" n:name="paymentType" value="0" id="test1" {if $paymentType == 0}checked{/if}>
+                                <label for="test1">{text 52, "title"}</label>
+                            </p>
+                            <p>
+                                <input type="radio" n:name="paymentType" value="1" id="test2" {if $paymentType == 1}checked{/if}>
+                                <label for="test2">{text 53, "title"}</label>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!--                    <div style="width: 100%; height: 50px">
+                                            <h1>4. Súhrn objednávky</h1>
+                                        </div>
+
+
+                                        <div class="summary-price">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <ul>
+                                                            <li>Konatkné a dodacie údaje</li>
+                                                            <li>Meno a Priezvisko</li>
+                                                            <li>e-mail</li>
+                                                            <li>telefónne číslo</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <ul>
+                                                            <li>Dodacie údaje</li>
+                                                            <li>Adresa číslo</li>
+                                                            <li>Mesto</li>
+                                                            <li>PSČ</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <ul>
+                                                            <li>Platba</li>
+                                                            <li>Prevodom na účet</li>
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="table-box">
+                                                    <table class="sumarry-table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th width="50%">Tovar</th>
+                                                            <th width="25%">ks</th>
+                                                            <th width="25%">Cena</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>Sentiotec Panorama</td>
+                                                            <td>1</td>
+                                                            <td><strong>1 590 €</strong></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Sentiotec Panorama</td>
+                                                            <td>1</td>
+                                                            <td><strong>1 590 €</strong></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>-->
+
+                    <div style="width: 100%;">
+                        <h1>{text 38, "title"}</h1>
+                        <div class="bgbox ordernotes">
+                            {input notes rows => "8"}
+                        </div>
+                    </div>
+
+                    <div class="finally-price group">
+                        <p>{text 54, "title"}<strong>{$cartSummary->getPrice()|number:2, ',', ' '}€</strong></p>
+                        <p>{text 55, "title"}<strong>{$cartSummary->getTax()}%</strong></p>
+                        <p>{text 56, "title"}<strong>{$cartSummary->getPriceWithTax()|number:2, ',', ' '}€</strong></p>
+
+                        <input class="btn-objednat" style="float: right" type="submit" value="{text 57, "title"}">
+                    </div>
+
+                {/form}
+            </div>
+        </div>
+    </div>
+</section>

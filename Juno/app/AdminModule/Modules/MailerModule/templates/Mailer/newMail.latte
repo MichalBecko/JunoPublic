@@ -1,0 +1,55 @@
+{block content}
+{include $blocksDir.'/tinymce.latte'}
+{include $blocksDir.'/select2.latte'}
+
+<div class="container-fluid">
+    {form newMail}
+    <div class="row page-content-header">
+	<h2>{_is.mailer.write}
+            <button n:name="submit" class="btn btn-success pull-right marg-10-left">
+                {_is.default.send} e-mail <span class="glyphicon glyphicon-ok"></span>
+            </button>
+            <a href="#" data-toggle="modal" data-target="#importTemplate" class="btn btn-custom-darkblue pull-right">
+                {_is.mailer.importTemplate}<span class="glyphicon glyphicon-import"></span>
+            </a>
+        </h2>
+    </div>
+    <div class="row page-content-wrapper">
+        <div class="page-content-back">
+            <div class="form-group">
+                {label recipient class => "control-label" /}
+                {input recipient class => "form-control"}
+            </div>
+            <div class="form-group">
+                {label subject class => "control-label" /}
+                {input subject class => "form-control"}
+            </div>
+            <div class="form-group">
+                {label body class => "control-label" /}
+                {input body class => "form-control tinymce_selector"}
+            </div>
+            <div class="form-group">
+                {label attachment class => "control-label" /}
+                {input attachment}
+            </div>
+        </div>
+    </div>
+    {/form}
+    {include "importTemplate.latte"}
+</div>
+<script>
+
+$(function () {
+
+    var data = {$contactMails|noescape};
+
+    $("#recipient").select2({
+        tags: true,
+        tokenSeparators: [',', ' '],
+        data: data,
+        placeholder: "{_is.default.startWriting|noescape} ..."
+    });    
+
+});
+    
+</script>

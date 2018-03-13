@@ -1,0 +1,82 @@
+{block content}
+{include $blocksDir.'/jquery-ui.latte'}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="page-content-back">
+            {form editTestPlanSprintForm}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {label name class => "control-label" /}
+                            {input name class => "form-control"}
+                            {input id class => "form-control"}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {label testPlan class => "control-label" /}
+                            {input testPlan class => "form-control"}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {label startDate class => "control-label" /}
+                            {input startDate class => "form-control datepickerstartDate"}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {label endDate class => "control-label" /}
+                            {input endDate class => "form-control datepickerendDate"}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button n:name="submit" class="btn btn-warning pull-right marg-10-top">{_is.default.edit} <span class="glyphicon glyphicon-edit"></span></button>
+                    </div>
+                </div>
+            {/form}
+        </div>
+    </div>
+</div>
+                            
+<script type="text/javascript">
+    $(function() {
+        
+        var dateFormat = "dd.mm.yy";
+        var startDate = $( ".datepickerstartDate" ).datepicker({
+            dateFormat: dateFormat,
+            defaultDate: "1.1.2018",
+            changeMonth: true,
+            numberOfMonths: 2,
+            onInit: function() {
+            
+            }
+        }).on("focus load change", function() {
+            endDate.prop("disabled", false);
+            endDate.datepicker("option", "minDate", getDate( this ) );
+        });
+        var endDate = $( ".datepickerendDate" ).datepicker({
+            dateFormat: dateFormat,
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 3
+        }).on("focus change", function() {
+            startDate.datepicker("option", "maxDate", getDate( this ) );
+        });
+
+        function getDate( element ) {
+            var date;
+            try {
+             date = $.datepicker.parseDate( dateFormat, element.value );
+            } catch( error ) {
+             date = null;
+            }
+
+            return date;
+        }
+        
+    });
+</script> 

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="robots" content="noindex, nofollow">
+	
+	<meta name="author" content="ARTEXE s.r.o., ARTEXE team">
+    <meta name="language" content="sk">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>JUNO</title>
+        
+	<link rel="stylesheet" href="{$basePath}/css/admin/style.css?token={$cacheToken}">
+	<link rel="stylesheet" href="{$basePath}/css/bs/bootstrap.min.css" >
+	
+	<script src="{$basePath}/js/jquery-1.11.3.min.js"></script>
+	<script src="{$basePath}/js/netteForms.min.js?new"></script>
+	<script src="{$basePath}/js/nette.ajax.js?new"></script>
+	<script src="{$basePath}/js/admin/main.js?token={$cacheToken}"></script>
+	<script src="{$basePath}/js/bs/bootstrap.min.js"></script>
+        
+    <link rel="stylesheet" href="{$basePath}/css/admin/pace.min.css" >
+    <script src="{$basePath}/js/admin/pace.min.js"></script>
+    <link rel="stylesheet" href="{$basePath}/css/admin/font-awesome.min.css">
+
+    <link rel="stylesheet" href="{$basePath}/css/admin/jquery.mcustomscrollbar.min.css" >
+    <script src="{$basePath}/js/admin/jquery.mcustomscrollbar.concat.min.js"></script>
+	
+	<link rel="shortcut icon" href="{$basePath}/{$client->getFavicon()->getPath()}">
+        
+	<meta name="viewport" content="width=device-width">
+</head>
+
+<body style="height: 100%; background-color: #f3f3f4;" id="body">
+    <div class="container-fluid fill" >
+	<div class="row fill">
+	    
+        {snippet flashMessages}
+	    <div class="flash-messages">
+		<div n:foreach="$flashes as $flash"  class="flash alert alert-{$flash->type} alert-dismissible text-center padd-10 border-1-sol-e6e6e6">
+		    <button type="button" class="close" ><span>&times;</span></button> {_$flash->message|noescape}
+		</div>
+	    </div>
+        {/snippet}
+	    
+	    <!--Top navigation-->
+	    <div class="navbar navbar-default navbar-fixed-top" style="border-radius: 0px;"> 
+		<div class="container-fluid" >
+		    <div class="navbar-header">
+			<a class="navbar-brand text-center" n:href=":Admin:Homepage:Homepage:" style="text-align: center;background-color: #123551;">
+			    <img src="{$basePath}/{$client->getMultimedia()->getPath()}" style="max-width: 100%; display: inline-block;">
+			</a>
+                <!--SHOW ONLY ON MOBILE-->
+                <ul class="nav navbar-right hidden-md hidden-lg hidden-sm" >
+                    <li class="dropdown">
+                        <button class="navbar-toggle collapsed mob-btn" type="button" style="margin-top: 15px;" data-toggle="collapse" data-target="#mob-nav">
+                            <span style="background-color: #ddd;" class="icon-bar"></span>
+                            <span style="background-color: #ddd;" class="icon-bar"></span>
+                            <span style="background-color: #ddd;" class="icon-bar"></span>
+                        </button>
+                        <nav id="mob-nav" class="navbar-collapse collapse" >
+                            <ul class="nav navbar-nav">
+<!--                                        <li></li>
+                                <li class="divider"></li>-->
+                            </ul>
+                        </nav>
+                    </li>
+                </ul>
+		    </div>
+		    <div class="collapse navbar-collapse">
+                        <div class="navbar-text navbar-left br hidden-xs">
+                            <ol class="breadcrumb">
+                                {foreach $breadcrumb as $b}
+                                    <li class=" {if $iterator->isLast()}active{/if}">
+                                        {if $iterator->isLast()}
+                                            {$b->getName()}
+                                        {else}
+                                            <a n:href="$b->getLink()">{$b->getName()}</a>
+                                        {/if}
+                                    </li>
+                                {/foreach}
+                            </ol>
+                        </div>
+
+                        <!--SHOW NORMAL SCREENS-->
+                        <ul class="nav navbar-nav navbar-right" style="margin-left: 15px;">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle navbar-myhover transition015slinear" data-toggle="dropdown">
+                                    <div class="media">
+                                        <div class="media-body media-body-inline">
+                                            <h4 class="media-heading" style="color: #6fcff1; margin-bottom: 6px; font-size: 17px;">{_is.user.user} <span class="caret"></span></h4>
+                                            <p style="color: #FFF; margin: 0px;">{$user->getEntity()->getName()} {$user->getEntity()->getSurname()}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-user">
+                                    <li><a n:href=":Admin:Profile:Profile:default"><span class="glyphicon glyphicon-user"></span> {_is.profile.myProfile}</a></li>
+                                    <li n:is-allowed="Privilege::TICKET_WRITE">
+                                        <a n:href=":Admin:Profile:Profile:addTicket"><span class="fa fa-ticket"></span> Zadať tiket</a>
+                                    </li>
+                                    <li><a n:href=":Admin:Profile:Profile:logs"><span class="glyphicon glyphicon-italic"></span> {_is.log.logs}</a></li>
+                                    <li><a href="#" data-toggle="modal" data-target="#lang"><span class="glyphicon glyphicon-flag"></span> {_is.layout.lang}</a></li>
+                                    <li role="separator" class="divider" style="background-color: #154469;">></li>
+                                    <li><a n:href="logout!" style="color: #6fcff1!important;"><span class="glyphicon glyphicon-off"></span> {_is.layout.logout}</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                                
+		    </div>
+		</div>
+	    </div>
+        <div id="wrapper" style="padding-top: 74px; {if $menuMini}padding-left: 77px{/if}">
+		<div class="sidebar-wrapper {if $menuMini}mini{/if}" {if $menuMini}style="width: 77px;"{/if}>
+            {include "Blocks/menu.latte"}
+            <div class="copyright text-center">
+                <div class="copyright-logo">
+                    <img src="{$basePath}/images/admin/juno_logo.png" height='28px' class="large {if !$menuMini}active{/if}">
+                    <img src="{$basePath}/images/admin/favicon.png" height='28px' class="small {if $menuMini}active{/if}">
+                </div>
+            </div>
+            </div>
+		<div>
+            {include "Blocks/lang.latte"}
+		    {include content}
+		</div>
+	    </div>                      
+	</div>
+
+        {if !$isFakedLoggedin}{else}
+        <div id="fakeLogin">
+            <a n:href="loginBackAsOrigin!"><span class="fa fa-chevron-left"></span> NASPÄŤ {$isFakedLoggedin->getFullName()|upper}</a>
+        </div>
+        {/if}
+
+    </div>
+</body>
+</html>

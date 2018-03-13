@@ -1,0 +1,51 @@
+{block roleedit}
+<div class="modal fade" id="editRole" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            {var $ID = $role->getId()}
+            {form editRoleForm-$ID}
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Upraviť novú rolu - <strong>{$role->getName()}</strong></h4>
+            </div>
+            <div class="modal-body">
+                <div class="">
+                    <div class="form-group">
+                        {label name class => "control-label" /}
+                        {input name class => "form-control"}
+                    </div>
+                </div>
+                {foreach $form['privileges']->components as $privilegeID => $percontainer}
+                    <div class="col-md-6">
+                        <div class="checkbox">
+                            {label $percontainer}
+                            <button type="button" class="fa fa-info"
+                                    data-toggle="collapse"
+                                    data-target="#privilegehelper{$privilegeID}"></button>
+                            {input $percontainer}
+                        </div>
+                        <div class="alert alert-info collapse" id="privilegehelper{$privilegeID}">
+                            {$privilegeMeanings[$privilegeID]}
+                        </div>
+                    </div>
+                    {if $iterator->counter % 2 == 0}
+                    <br class="clear">
+                    {/if}
+                {/foreach}
+                <br class="clear">
+            </div>
+            <div class="modal-footer">
+                  <button type="button" class="btn btn-default pull-left strong" data-dismiss="modal">{_is.default.close}</button>
+                  <button n:name="submit" class="btn btn-custom-darkyellow">Upraviť <span class="glyphicon glyphicon-edit"></span></button>
+            </div>
+            {input id}
+            {/form}
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+	    $("#editRole").modal({});
+    });
+</script>
+{/block}

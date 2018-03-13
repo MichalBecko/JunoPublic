@@ -1,0 +1,44 @@
+@font-face {
+    font-family: 'icomoon';
+    src:  url('../../css/fonts/icomoon.eot?2rk0k1');
+    src:  url('../../css/fonts/icomoon.eot?2rk0k1#iefix') format('embedded-opentype'),
+    url('../../css/fonts/icomoon.ttf?2rk0k1') format('truetype'),
+    url('../../css/fonts/icomoon.woff?2rk0k1') format('woff'),
+    url('../../css/fonts/icomoon.svg?2rk0k1#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-filter:before {
+    content: "\e900";
+}
+.icon-hladat:before {
+    content: "\e901";
+}
+.icon-hore:before {
+    content: "\e902";
+}
+.icon-kontakt:before {
+    content: "\e903";
+}
+.icon-kosik:before {
+    content: "\e904";
+}
+.icon-zoradit:before {
+    content: "\e905";
+}

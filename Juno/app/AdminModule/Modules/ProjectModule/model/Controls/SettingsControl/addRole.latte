@@ -1,0 +1,31 @@
+{block role}
+<!--MODAL WINDOW FOR ADD ROLE-->
+<div class="modal fade" id="addRole" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            {form addRoleForm}
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Pridať novú rolu</h4>
+            </div>
+            <div class="modal-body">
+                <div class="">
+                    <div class="form-group">
+                        {label name class => "control-label" /}
+                        {input name class => "form-control"}
+                    </div>
+                    <div class="form-group">
+                        {label isForProject class => "control-label" /}
+                        {input isForProject class => "form-control"}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                  <button type="button" class="btn btn-default pull-left strong" data-dismiss="modal">{_is.default.close}</button>
+                  <button n:name="submit" class="btn btn-success">{_is.default.add} <span class="glyphicon glyphicon-ok"></span></button>
+            </div>
+            {/form}
+        </div>
+    </div>
+</div>
+{/block}

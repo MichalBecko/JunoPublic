@@ -1,0 +1,87 @@
+{block content}
+
+<section class="section-kosik">
+    <div class="container">
+        <div class="kosik-form-box">
+                    <div style="width: 100%; height: 50px">
+                        <h1>{text 58, "title"}</h1>
+                    </div>
+
+                    <div class="summary-price">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <ul>
+                                        <li>{text 59, "title"}</li>
+                                        <li>{$cart->getValues()['name']}</li>
+                                        <li>{$cart->getValues()['mail']}</li>
+                                        <li>{$cart->getValues()['tel']}</li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <ul>
+                                        <li>{text 60, "title"}</li>
+                                        <li>{$cart->getValues()['street']}</li>
+                                        <li>{$cart->getValues()['city']}</li>
+                                        <li>{$cart->getValues()['psc']}</li>
+                                        <li>{$cart->getValues()['state']}</li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <ul>
+                                        <li>{text 61, "title"}</li>
+                                        <li>{$types[$cart->getValues()['paymentType']]}</li>
+                                    </ul>
+                                </div>
+                                    
+                                <div class="col-md-12">
+                                    <ul>
+                                        <li>{text 62, "title"}</li>
+                                        <li>{$cart->getValues()['notes']}</li>
+                                    </ul>
+                                </div>
+
+                            </div>
+
+                            <div class="table-box">
+                                <table class="sumarry-table">
+                                    <thead>
+                                    <tr>
+                                        <th width="50%">{text 63, "title"}</th>
+                                        <th width="25%">{text 64, "title"}</th>
+                                        <th width="25%">{text 65, "title"}</th>
+                                        <th width="25%">{text 66, "title"}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {foreach $products as $pro}
+                                        <tr>
+                                            <td>{$pro->getTr($locale)->title}</td>
+                                            <td>{$cart->getQuantityByID($pro->id)}</td>
+                                            <td><strong>{$pro->getTr($locale)->getPriceWithoutTax()}€</td>
+                                            <td><strong>{$pro->getTr($locale)->price}€</strong></td>
+                                        </tr>
+                                    {/foreach}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="finally-price group">
+                        <p>{text 54, "title"} <strong>{$cartSummary->getPrice()|number:2, ',', ' '}€</strong></p>
+                        <p>{text 55, "title"} <strong>{$cartSummary->getTax()}%</strong></p>
+                        <p>{text 56, "title"} <strong>{$cartSummary->getPriceWithTax()|number:2, ',', ' '}€</strong></p>
+
+                        <a n:href="order!" class="btn-objednat" style="float: right" >{text 67, "title"}</a>
+                        <p class="obch-podmienky group">{text 68, "te"}</p>
+                        <br class="clear" style="clear: both;">
+
+                        <p style="font-size: 13px; color: #7cc576">{text 69, "title"}</p>
+                    </div>
+            </div>
+        </div>
+    </div>
+</section>

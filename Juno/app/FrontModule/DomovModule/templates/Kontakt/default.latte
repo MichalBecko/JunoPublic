@@ -1,0 +1,78 @@
+{block content}
+
+<section class="section-kontakt">
+    <div class="container">
+        <div class="kontakt-box">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <ul>
+                            <h1>Adresa</h1>
+                            <div class="hr"></div>
+                            <li>Ulica číslo 23</li>
+                            <li>Mesto</li>
+                            <li>psč</li>
+                        </ul>
+
+                        <ul>
+                            <h1>Kontakt</h1>
+                            <div class="hr"></div>
+                            <li>e-mail@e-mail.sk</li>
+                            <li>+421 telefónne číslo</li>
+                            <li>Facebook</li>
+                        </ul>
+                    </div>
+
+
+
+                    <div class="col-md-3">
+                        <ul class="marek">
+                            <h1>Marek
+                                Fingerland</h1>
+                            <div class="hr"></div>
+                            <li>sales manager</li>
+                            <li>e-mail</li>
+                            <li>telefón</li>
+                        </ul>
+
+
+                        <div class="kontakt-photo"></div>
+
+                    </div>
+
+
+
+                    <div class="col-md-6">
+                        <h1>Napíšte nám</h1>
+                        <div class="hr"></div>
+                        {form contactForm data-ajax=>"false"}
+                            <input type="text" n:name="name" placeholder="Meno a Priezvisko*">
+                            <input type="email" n:name="email" placeholder="E-mail*">
+
+                            <textarea n:name="text" id="" cols="30" rows="10" placeholder="Text vašej správy*"></textarea>
+
+                            <input type="submit" name="submit" value="" id="formsubmit" style="display: none"/>
+
+                            <button id="submitme" type="button" class="g-recaptcha" data-sitekey="6Lf1KDYUAAAAABOTlrv9FSk8n_ZHwzB9QjUczOaS" data-callback="onDone">/ odoslať /</button>
+                        {/form}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{include "../sluzby.latte"}
+
+<section>
+    <div class="container">
+        <a href="#">
+            <div class="cover-box"  style="background-image: url('{$basePath}/images/front/sauny/saunaofen_conceptr.jpg'); position: relative; z-index: 5">
+                <div class="cover-head">
+                    <h1>"Existuje tisíc chorôb,<br><strong>ale len jedno zdravie."</strong></h1>
+                    <p>ako na to</p>
+                </div>
+            </div>
+        </a>
+    </div>
+</section>

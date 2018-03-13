@@ -1,0 +1,110 @@
+<div class="modal fade" id="showCaseModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4>Zobraziť case</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-6" style="border-right: 1px solid #eee;">
+						<div class="form-group testSetName">
+							<label for="testPlan" class="control-label"> Test Set</label>
+							<p class="alert alert-info"></p>
+						</div>
+						<div class="form-group name">
+							<label for="testPlan" class="control-label"> Name</label>
+							<p class="alert alert-info"></p>
+						</div>
+						<div class="form-group description">
+							<label for="testPlan" class="control-label"> Popis</label>
+							<p class="alert alert-info"></p>
+						</div>
+						<div class="form-group result">
+							<label for="testPlan" class="control-label"> Výsledek</label>
+							<p class="alert alert-info"></p>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group creator">
+							<label for="testPlan" class="control-label"> Vytvořil</label>
+							<p class="alert alert-info"></p>
+						</div>
+						<div class="form-group createDate">
+							<label for="testPlan" class="control-label"> Vytvořené</label>
+							<p class="alert alert-info"></p>
+						</div>
+						<div class="form-group priority">
+							<label for="testPlan" class="control-label"> Priorita</label>
+							<p class="alert alert-info"></p>
+						</div>
+						<div class="form-group approved">
+							<label for="testPlan" class="control-label"> Schválený</label>
+							<p class="alert alert-info"></p>
+						</div>
+						<div class="form-group">
+							<label class="control-label">Příloha </label>
+							<ul class="attachments">
+
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-default pull-right strong submitIssue ajax" data-dismiss="modal">Zatvoriť</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+    $(function() {
+
+        jQuery(document).on("click", ".showCaseInModal", function() {
+            var caseid = $(this).data("caseid");
+            jQuery.nette.ajax({
+                url: {link TestAnalyses:getCase},
+                data: {
+                    caseid: caseid
+                },
+                success: function(payload) {
+
+                    var data = JSON.parse(payload.data);
+
+                    $.each(data, function (key, value) {
+                        if (value == null) {
+                            data[key] = "-";
+                        }
+                    });
+
+                    var modal = jQuery("#showCaseModal");
+
+                    modal.find(".name p").text(data.name);
+                    modal.find(".description p").text(data.description);
+                    modal.find(".result p").text(data.result);
+                    modal.find(".creator p").text(data.creator);
+                    modal.find(".createDate p").text(data.createDate);
+                    modal.find(".priority p").text(data.priority);
+                    modal.find(".approved p").text(data.approved);
+                    modal.find(".testSetName p").text(data.testSetName);
+
+                    // data fill from payload
+                    var attachments =  data.attachments;
+                    var ul = modal.find(".attachments")
+                    ul.find("li").remove();
+                    for (var key in attachments) {
+
+                        var li = "<li><a href='" + {$basePath} + "/" +attachments[key] + "' target='_blank'><span class='fa fa-file'></span> " + key + "</a></li>";
+                        ul.append(li);
+                    }
+
+                    jQuery("#showCaseModal").modal();
+                }
+            });
+
+        });
+
+    });
+</script>

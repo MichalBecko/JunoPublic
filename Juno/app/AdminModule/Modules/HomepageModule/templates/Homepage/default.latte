@@ -1,0 +1,137 @@
+{block content}
+
+<div class="container-fluid">
+    <div class="row page-content-header">
+        <h2><span class="glyphicon glyphicon-home"></span>{_is.modulName.homepage}</h2>
+    </div>
+    <div class="row">
+        <div class="page-header-info page-header-padd-fix">
+            <div class="col-md-12 page-header-wrap">
+                <div class="page-header-box">
+                    <h3>
+                        Vitajte {$user->getEntity()->name}
+                    </h3>
+                    <div class="absolute-span">
+                        <span class="glyphicon glyphicon-book"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {form chooseTesterForm}
+        <label for="chooseProject" n:name="chooseTester">Choose Project</label>
+        <select id="chooseTester" n:name="chooseTester" class="custom-select custom-select-sm" />
+    {/form}
+
+        <div class="row page-content-wrapper">
+            <div class="page-content-back col-md-6">
+               <h4>My Projects</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Top 5 Projects (Order by my activity)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr n:foreach="$projects as $project">
+                            <td>{$project->getName()}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="page-content-back col-md-offset-1 col-md-5">
+                <h4>My Issue</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Top 5 Issues (Order by Severity / Priority)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr n:foreach="$issues as $issue">
+                            <td>{$issue->getName()}{dump $issue}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row page-content-wrapper">
+            <div class="page-content-back col-md-6">
+                <h4>My Projects Status</h4>
+                {form chooseProjectForm}
+                    <label for="chooseProject" n:name="chooseProject">Choose Project</label>
+                    <select id="chooseProject" n:name="chooseProject" class="custom-select custom-select-sm" />
+                {/form}
+
+                {snippet chooseProject}
+                    {if $projectStatus["allStatusCount"]}
+                        <div id="piechart"></div>
+                    {else}
+                        <div>Žádné statusy v projektu nejsou k dispozici.</div>
+                    {/if}
+                {/snippet}
+            </div>
+
+            <div class="page-content-back col-md-offset-1 col-md-5">
+                <h4>My Reports</h4>
+                TODO
+            </div>
+        </div>
+
+    </div>
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+{snippet script}
+<script type="text/javascript">
+    $("#chooseTester").on('change', function(){
+        var testerId = $(this).val();
+        location.href = {link Homepage:default} + '?testerId=' + $(this).val();
+    });
+
+    $("#chooseProject").on('change', function(){
+        var projectId = $(this).val();
+        $.nette.ajax({
+            url: {link chooseProject!},
+            type: 'GET',
+            data: {
+                'projectId': $(this).val(),
+            }
+        });
+    });
+
+    // Load google charts
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    // Draw the chart and set the chart values
+    function drawChart() {
+        var noRun = {$projectStatus[1]};
+        var passed = {$projectStatus[2]};
+        var failed = {$projectStatus[3]};
+        var na = {$projectStatus[4]};
+        var notCompleted = {$projectStatus[5]};
+
+        var data = google.visualization.arrayToDataTable([
+            ['Issues', 'Issue types form all issues'],
+            ['No Run', noRun],
+            ['Passed', passed],
+            ['Failed', failed],
+            ['N/A', na],
+            ['Not completed', notCompleted]
+        ]);
+
+        var allStatusCount = {$projectStatus["allStatusCount"]};
+        // Optional; add a title and set the width and height of the chart
+        var options = {'title':'All Status Count ' + allStatusCount};
+
+        // Display the chart inside the <div> element with id="piechart"
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+    }
+</script>
+{/snippet}

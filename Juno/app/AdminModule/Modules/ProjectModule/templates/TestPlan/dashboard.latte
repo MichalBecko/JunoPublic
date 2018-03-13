@@ -1,0 +1,148 @@
+<h4>Dashboard - {$testSprint->getName()}</h4>
+
+<div class="container-fluid">
+	<div class="row">
+		<form n:name="selectSprintForm">
+			<div class="col-md-3">
+				<select id="selectTestSprint" for="selectTestSprint" class="form-control" n:name="selectTestSprint"/>
+			</div>
+
+			<div class="col-md-1 testExecutionButton">
+				<input n:name="send" class="btn btn-sm btn-success col-md-12">
+			</div>
+		</form>
+	</div>
+
+	<br class="clear">
+
+	<div>
+		<h4>Test Sprint Status</h4>
+		<table class="table table-bordered">
+			<thead>
+			<tr>
+				<th scope="col">Failed</th>
+				<th scope="col">Not Available</th>
+				<th scope="col">No Run</th>
+				<th scope="col">Not Completed</th>
+				<th scope="col">Passed</th>
+				<th scope="col">Total</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>{$testSprint->getStatuses()[3]}</td>
+				<td>{$testSprint->getStatuses()[4]}</td>
+				<td>{$testSprint->getStatuses()[1]}</td>
+				<td>{$testSprint->getStatuses()[5]}</td>
+				<td>{$testSprint->getStatuses()[2]}</td>
+				<td>{$testSprint->getCountTestCase()}</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<br class="clear">
+
+	<h4>Interactive Gantt Diagram</h4>
+	{var $displayGanttChart = 0}
+    {foreach $testSprint->getTestCases() as $case}
+		{foreach $case->getTags() as $tag}
+			{php $displayGanttChart++}
+		{/foreach}
+	{/foreach}
+	<div id="ganttChart" n:if="$displayGanttChart"></div>
+	<p n:if="!$displayGanttChart" class="text-danger">Pokud chcete vidět ganttův diagram, je potřeba definovat tagy!</p>
+	<br class="clear">
+
+	<h4>Progress Diagram</h4>
+	<div id="curve_chart" style="width: 1200px; height: 500px"></div>
+	<br class="clear">
+
+	<h4>Actual Progress</h4>
+	<div>
+		<table class="table table-bordered">
+			<thead>
+			<tr>
+				<th scope="col">Relative Difference</th>
+				<th scope="col">Absolute Difference</th>
+				<th scope="col">Progress Status</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				{var $actualDate = new DateTime()}
+				{var $actualProgress = $testSprint->getActualProgress($actualDate->setTime(23, 59, 59))}
+				{var $planedProgress = $testSprint->getPlannedProgress($actualDate->setTime(23, 59, 59))}
+				{var $progress = $actualProgress - $planedProgress}
+				<td class="center">{if $planedProgress} {(($actualProgress / $planedProgress) * 100) - 100}% {else} 0% {/if}</td>
+				<td class="center">{$progress}</td>
+				<td class="center {if $progress < 0}text-danger{else}text-success{/if}">{if $progress < 0} NOK {else} OK {/if}</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load("current", {"packages":["gantt"]});
+    google.charts.setOnLoadCallback(drawGanttChart);
+
+    function drawGanttChart() {
+        var rows = new Array();
+        {foreach $testSprint->getTestCases() as $case}
+        	{foreach $case->getTags() as $tag}
+        		{var $startDate = $tag->getTagOrSprintStartDate($testSprint->getStartDate())}
+        		{var $endDate = $tag->getTagOrSprintEndDate($testSprint->getEndDate())}
+
+				rows.push([
+					{$tag->getUniqueName()}, {$tag->getName()},
+					new Date({$startDate->format("Y")}, {$startDate->format("n")} - 1, {$startDate->format("j")}),
+					new Date({$endDate->format("Y")}, {$endDate->format("n")} - 1, {$endDate->format("j")}),
+					null, {$tag->getProgress()},  null
+				]);
+			{/foreach}
+        {/foreach}
+
+        var data = new google.visualization.DataTable();
+        data.addColumn("string", "Task ID");
+        data.addColumn("string", "Task Name");
+        data.addColumn("date", "Start Date");
+        data.addColumn("date", "End Date");
+        data.addColumn("number", "Duration");
+        data.addColumn("number", "Percent Complete");
+        data.addColumn("string", "Dependencies");
+        data.addRows(rows);
+
+        var options = {
+            height: 150
+        };
+        var chart = new google.visualization.Gantt(document.getElementById("ganttChart"));
+
+        chart.draw(data, options);
+    }
+
+    google.charts.load("current", {"packages":["corechart"]});
+    google.charts.setOnLoadCallback(drawChart);
+
+    var rows = new Array();
+    rows.push(["Test Case Count", "Očekávaný vývoj", "Skutečný vývoj"])
+    {var $interval = DateInterval::createFromDateString("1 day")}
+    {var $period   = new DatePeriod($testSprint->getStartDate(), $interval, $testSprint->getEndDate()->modify("+1 day"))}
+    {foreach $period as $dt}
+    rows.push([{$dt->format("j.n.Y")}, {$testSprint->getPlannedProgress($dt->setTime(23, 59, 59))}, {$testSprint->getActualProgress($dt->setTime(23, 59, 59))}]);
+    {/foreach}
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable(rows);
+
+        var options = {
+            title: "Progress",
+            legend: { position: "bottom"}
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById("curve_chart"));
+
+        chart.draw(data, options);
+    }
+</script>

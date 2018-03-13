@@ -1,0 +1,12 @@
+{block upload}
+{if array_key_exists('isNewline', $attrs)}
+        <br class="clear">
+{/if}
+
+<div {if array_key_exists('colWidth', $attrs)}class="{$attrs['colWidth']}"{/if}>
+    <div class="form-group">
+        {label $field class => "control-label"/}
+        {input $field }
+    </div>
+</div>
+{/block}

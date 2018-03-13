@@ -1,0 +1,209 @@
+{block content}
+{include $blocksDir.'/select2.latte'}
+
+<div class="container-fluid">
+    <div class="row page-content-header" style="margin-top: 0px; margin-bottom: 0px; padding: 0px;">
+        <h2>
+            {include "../Blocks/menu.latte"}
+        </h2>
+    </div>
+    <div class="row page-content-wrapper">
+        <div class="page-content-back">
+            
+            <div class="tabbable tabs-left">
+                <ul class="nav nav-tabs">
+                    <li n:is-allowed="Privilege::SETTINGS_GENERAL_SETTINGS" class="active"><a href="#vseobecne-nastavenia" data-toggle="tab">Všeobecné nastavenia</a></li>
+                    <li n:is-allowed="Privilege::SETTINGS_PROJECT_ROLES"><a href="#projektove-role" data-toggle="tab">Projektové role</a></li>
+                    <li n:is-allowed="Privilege::SETTINGS_OTHER_SETTINGS"><a href="#ostatne-nastavenia" data-toggle="tab">Ostatné nastavenia</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="vseobecne-nastavenia">
+                        <h4>Všeobecné nastavenia</h4>
+                        <div>
+                            {form editProjectForm}
+                                <div class="form-group">
+                                    {label name class => "control-label" /}
+                                    {input name class => "form-control"}
+                                </div>
+                                <div class="form-group">
+                                    {label description class => "control-label" /}
+                                    {input description class => "form-control"}
+                                </div>
+                                <button n:name="submit" class="btn btn-warning pull-right marg-10-top">{_is.default.edit} <span class="glyphicon glyphicon-edit"></span></button>
+                            {/form}
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="projektove-role">
+                        <h4>Projektové role</h4>
+                        <p>V týchto nastaveniach nastavíte aké role budú patríť akým užívateľom pri aktuálnom projekte</p>
+                        <table class="table table-hovered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="nowrap">Rola</th>
+                                    <th>Členovia</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $roles as $role}
+                                <tr data-roleid="{$role->getId()}">
+                                    <td class="nowrap">{$role->getName()}</td>
+                                    <td>
+                                        <select n:is-allowed="Privilege::SETTINGS_PROJECT_ROLES_EDIT" class="chooseperson" name="chooseperson" style="width: 100%;">
+                                            <option></option>
+                                            {foreach $users as $u}
+                                                {var $haveRole = \Functions\Functions::returnArrIfExists($projectRoles,
+                                                    ['role_id' => $role->getId(),
+                                                    'user_id' => $u->getId()])}
+                                                {if count($haveRole) == 0}
+                                                    <option value="{$u->getId()}">{$u->getFullName()}</option>
+                                                {/if}
+                                            {/foreach}
+                                        </select>
+                                        
+                                        <div class="persontags">
+                                            {var $usersInRole = \Functions\Functions::returnArrIfExists($projectRoles, ['role_id' => $role->getId()])}
+                                            {foreach $usersInRole as $uR}
+                                            <div class='tag'>
+                                                {$uR['name']} {$uR['surname']}
+                                                <div n:is-allowed="Privilege::SETTINGS_PROJECT_ROLES_DELETE" class='removeuser' data-userid='{$uR['user_id']}'>
+                                                    <span class='glyphicon glyphicon-remove'></span>
+                                                </div>
+                                            </div>
+                                            {/foreach}
+                                        </div>
+                                    </td>
+                                </tr>
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="ostatne-nastavenia">
+                        <h4>Ostatné nastavenia</h4>
+                        <p>Nastavení môže byť koľko a aké len budeme chcieť, toto je zatiaľ základné členenie</p>
+                        <table class="table table-hovered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Názov</th>
+                                    <th class="nowrap">Akcia</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr n:is-allowed="Privilege::SETTINGS_DELETE_PROJECT">
+                                    <td>
+                                        Zmazať projekt
+                                    </td>
+                                    <td>
+                                        <button type="button" data-toggle="modal" data-target="#deleteProject" 
+                                            class="btn btn-danger btn-sm btn-sm-betpad"
+                                            data-tooltip="tooltip" title="Zmazať projekt">
+                                        <span class="glyphicon glyphicon-trash"></span> ZMAZAŤ</button>
+                                        {include '../Settings/Blocks/deleteProject.latte'}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                </div>
+                <br class="clear">
+            </div>
+            
+        </div>
+    </div>
+</div>
+        
+<script>    
+$(document).ready(function(){
+    
+    var url = document.location.toString();
+    if (url.match('#')) {
+        $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+    } 
+
+    // Change hash for page-reload
+    $('.nav-tabs a').on('shown.bs.tab', function (e) {
+        window.location.hash = e.target.hash;
+    });
+    
+    var projectID = {$project->getId()};
+
+    $(".chooseperson").select2({
+        tags: true,
+        allowClear: true,
+        placeholder: "Začnite písať ..."
+    }); 
+    
+    $('.chooseperson').on("select2:select", function (evt) {
+        
+        // select
+        var select = $(evt.target);
+        
+        // user id
+        var userID = evt.target.value;
+        // role id
+        var roleID = select.closest("tr").eq(0).data("roleid");
+        // username
+        var userNAME = $(evt.target).select2('data')[0].text;
+        
+        // new SPAN tag
+        var html = "<div class='tag'>" + userNAME + "<div class='removeuser' data-userid='" + userID +"'><span class='glyphicon glyphicon-remove'></span></div></div>";
+        
+        $.nette.ajax({
+            url: {link RestSettings:addUserProjectRole},
+            data: {
+                userID: userID,
+                roleID: roleID,
+                projectID: projectID
+            },
+            success: function(response) {
+                var code = response.code;
+                if (code == 1) {
+                    // success
+                    // append new SPAN
+                    select.closest("tr").find(".persontags").append(html);
+
+                    // reset select2
+                    $(evt.target).select2("val", "");
+
+                    // remove that option from select
+                    select.find("option[value='" + userID + "']").detach();
+                }
+            }
+        });
+    });
+    
+    $(document).on("click", ".persontags .tag .removeuser", function() {
+        
+        var dis = $(this);
+        var userID = dis.data("userid");
+        
+        var select = dis.closest("tr").eq(0).find(".chooseperson");
+        var tag = dis.closest(".tag").eq(0);
+        var roleID = dis.closest("tr").eq(0).data("roleid");
+        var userName = tag.text();
+        
+        // ajax request
+        $.nette.ajax({
+            url: {link RestSettings:removeUserProjectRole},
+            data: {
+                userID: userID,
+                roleID: roleID,
+                projectID: projectID
+            },
+            success: function(response) {
+                var code = response.code;
+                if (code == 1) {
+                    // success
+                    // remove user from persontags
+                    tag.remove();
+                    // we have to add it back to select
+                    select.append("<option value='" + userID + "'>" + userName + "</option>");
+                }
+            }
+        });
+    });
+    
+});
+</script>
+
+<!--MODAL WINDOW FOR ADD PROJECT-->

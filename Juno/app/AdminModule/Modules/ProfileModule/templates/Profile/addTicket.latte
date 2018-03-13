@@ -1,0 +1,66 @@
+{block content}
+<div class="container-fluid usermodule">
+    {form addTicketForm}
+    <div class="row page-content-header">
+	<h2>Tiket</h2>
+    </div>
+    
+    <div class="row page-content-wrapper">
+        <div class="page-content-back page-content-with-header">
+            <h4 class='titlenew'><span class='fa fa-list'></span> Formulár</h4>
+            <div class="col-md-offset-3 col-md-6" style="padding-bottom: 40px;">
+                    <p>
+                        Ak máte akékoľvek otázky, pripomienky a postrehy, kontaktujte nás!
+                    </p>
+                    {control renderFormInput $form["name"]}
+                    {control renderFormInput $form["mail"]}
+                    {control renderFormInput $form["title"]}
+                    {control renderFormInput $form["description"]}
+                    <div class="form-group">
+                        <label class="control-label">Prílohy (max {ProjectModule\Classes\DefaultValues::getMaxFileSizeInMB()})</label>
+                        <div class="input-group input-group-sm multiplierContainer">
+                            <input type="file" name="multimedia[]" multiple class="form-control">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-sm btn-default removeFromContainer"><span class="glyphicon glyphicon-remove red"></span></button>
+                                <button type="button" class="btn btn-sm btn-default addToContainer"><span class="glyphicon glyphicon-plus green"></span></button>
+                            </span>
+                        </div>
+                    </div>
+                    <button n:name="submit" class="btn btn-success pull-right">
+                        Odoslať tiket <span class="glyphicon glyphicon-ok"></span>
+                    </button>
+            </div>
+            <br class="clear">
+        </div>
+    </div>
+    {/form}
+</div>
+<script>
+    $(function() {
+        
+        $(document).on("click", ".addToContainer", function() {
+            
+            var dis = $(this);
+            var inputGroup = dis.closest(".multiplierContainer").eq(0);
+            var html = inputGroup.clone().wrap('<p/>').parent().html();
+            
+            $(html).insertAfter(inputGroup);
+            
+            return false;
+        });
+        
+        $(document).on("click", ".removeFromContainer", function() {
+            
+            var dis = $(this);
+            var inputGroup = dis.closest(".multiplierContainer").eq(0);
+            var count = inputGroup.parent().find(".multiplierContainer").length;
+            
+            if (count > 1) {
+                inputGroup.remove();
+            }
+            
+            return false;
+        });
+        
+    });
+</script>

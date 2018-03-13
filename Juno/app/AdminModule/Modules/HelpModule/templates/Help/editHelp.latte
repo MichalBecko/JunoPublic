@@ -1,0 +1,26 @@
+{block content}
+
+{include $blocksDir.'/tinymce4.latte'}
+
+<div class="container-fluid">
+    {form editHelp}
+    <div class="row page-content-header">
+        <h2>{_is.help.editHelp}
+            <button n:name="submit" class="btn btn-custom-darkyellow pull-right">
+                {_is.default.edit} <span class="glyphicon glyphicon-edit"></span>
+            </button>
+        </h2>
+    </div>
+    <div class="row page-content-wrapper">
+        <div class="page-content-back">
+            <div class="form-horizontal">
+                <div class="container-fluid">
+                    <div class="form-group">
+                        {input description class => "tinymce_selector"}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {/form}
+</div>

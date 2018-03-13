@@ -1,0 +1,95 @@
+@font-face {
+  font-family: 'Alcoholkiller';
+  src:  url('fonts/Alcoholkiller.eot?r0fbvc');
+  src:  url('fonts/Alcoholkiller.eot?r0fbvc#iefix') format('embedded-opentype'),
+    url('fonts/Alcoholkiller.ttf?r0fbvc') format('truetype'),
+    url('fonts/Alcoholkiller.woff?r0fbvc') format('woff'),
+    url('fonts/Alcoholkiller.svg?r0fbvc#Alcoholkiller') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'Alcoholkiller' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-viac:before {
+  content: "\e916";
+}
+.icon-day-logo:before {
+  content: "\e900";
+}
+.icon-alcohol-killer:before {
+  content: "\e901";
+}
+.icon-carrefour:before {
+  content: "\e902";
+}
+.icon-checked:before {
+  content: "\e903";
+}
+.icon-delia-logo:before {
+  content: "\e904";
+}
+.icon-drager:before {
+  content: "\e905";
+}
+.icon-facebook:before {
+  content: "\e906";
+}
+.icon-harley:before {
+  content: "\e907";
+}
+.icon-instagram:before {
+  content: "\e908";
+}
+.icon-kon-rad:before {
+  content: "\e909";
+}
+.icon-kvapka:before {
+  content: "\e90a";
+}
+.icon-list:before {
+  content: "\e90b";
+}
+.icon-muz:before {
+  content: "\e90c";
+}
+.icon-noc:before {
+  content: "\e90d";
+}
+.icon-play:before {
+  content: "\e90e";
+}
+.icon-sipka:before {
+  content: "\e90f";
+}
+.icon-slnko:before {
+  content: "\e910";
+}
+.icon-superdrive:before {
+  content: "\e911";
+}
+.icon-Terno-logo:before {
+  content: "\e912";
+}
+.icon-tesco-logo:before {
+  content: "\e913";
+}
+.icon-uvodzovky:before {
+  content: "\e914";
+}
+.icon-zena:before {
+  content: "\e915";
+}

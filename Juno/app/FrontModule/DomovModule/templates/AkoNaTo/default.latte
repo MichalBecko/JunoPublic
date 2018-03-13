@@ -1,0 +1,111 @@
+{block content}
+<section  class="section-akonato">
+    <div class="cover-akonato">
+        <div class="prechod"></div>
+
+        <div class="cover-bottom">
+            <div class="container">
+                <header>
+                    <div class="container">
+                        {text 25, "title"}
+                        <div class="hr"></div>
+                        {text 25, "te"}
+                    </div>
+                </header>
+
+                <div class="menu-filter">
+                    <div class="filter-top">
+                        <p class="filterp"><i class="icon-filter"></i>{text 24, "title"}</p>
+                        <div class="filterlink">
+                            <a n:href="AkoNaTo:default">všetko</a>
+                            {foreach $artcategories as $cate}
+                            <a n:href="AkoNaTo:default $cate->slug">{$cate->title}</a>
+                            {/foreach}
+                        </div>
+                    </div>
+                    <div class="filter-bottom group">
+                        <div class="row">
+                            <span class="link-lom-styling"><i class="icon-zoradit"></i> ZORADIŤ</span>
+                            <a n:href="this, 'timesort' => null, 'sort' => 'ASC'" class="link-lom">{text 19, "title"}</a>
+                            <a n:href="this, 'timesort' => null, 'sort' => 'DESC'" class="link-lom">{text 20, "title"}</a>
+                            <a n:href="this, 'sort' => null, 'timesort' => 'ASC'" class="link-lom">{text 21, "title"}</a>
+                            <a n:href="this, 'sort' => null, 'timesort' => 'DESC'" class="link-lom">{text 22, "title"}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="akonato-top">
+        <div class="container">
+
+            {snippet articles}
+            <div class="article-box">
+                <div class="row">
+                    
+                    {foreach $articles as $a}
+                    <article class="col-md-4 col-sm-6 article">
+                        <a n:href="AkoNaTo:clanok $a->slug">
+                            <div class="article-hover">
+                                <div class="article-img" style="background-image: url('{$basePath}/{$a->getMultimedia()->getPath()}')"></div>
+                                <div class="article-text">
+                                    {$a->articleCategory->getTitle()}
+                                    <h1><a href="#">{$a->title}</a></h1>
+                                    <p>{$a->te|noescape|striptags|truncate:100}</p>
+                                </div>
+                                <div class="bieli-prechod"></div>
+                            </div>
+                        </a>
+                    </article>
+                    {/foreach}
+
+                </div>
+            </div>
+            
+
+            <div class="pagination">
+                <div class="row">
+                    <div class="col-sm-4 left">
+                        <p><a href="#"><i class="icon-hore"></i>{text 18, "title"}</a></p>
+                    </div>
+
+                    {ifset $limitReached}
+                    {else}
+                    <div class="col-sm-4 center">
+                        <p><a n:href="moreArticles! $id, $sort, $timesort, $number" class="ajax">{text 17, "title"}</a></p>
+                    </div>
+                    {/ifset}
+
+<!--                    <div class="col-sm-4 right">
+                        <ul>
+                            <li><a href="#"><strong>1</strong></a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">...</a></li>
+                        </ul>
+                    </div>-->
+                </div>
+            </div>
+            {/snippet}
+
+        </div>
+    </div>
+</section>
+
+{include "../sluzby.latte"}
+
+<section>
+    <div class="container">
+        <a href="#">
+            <div class="cover-box"  style="background-image: url('{$basePath}/images/front/sauny/saunaofen_conceptr.jpg'); position: relative; z-index: 5">
+                <div class="cover-head">
+                    {text 16, "te"}
+
+                    {text 16, "title"}
+                </div>
+            </div>
+        </a>
+    </div>
+</section>

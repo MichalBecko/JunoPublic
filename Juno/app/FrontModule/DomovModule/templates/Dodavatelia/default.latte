@@ -1,0 +1,37 @@
+{block content}
+
+<section class="section-dodavatelia">
+    <div class="container">
+        <div class="dodavatelia-box" style="background-image: url('{$basePath}/images/front/sauny/Nuuksion_sauna1.jpg')">
+            <div class="dodavatelia">
+                <img src="{$basePath}/images/front/sauny/sentiotec.png" alt="">
+                <div class="hr-img"></div>
+                {text 14, "te"}
+                <div class="dodavatelia-link">
+                    {foreach $categories as $cat}
+                        {if $iterator->counter  != 4}
+                        <a n:href="Kategoria:default $cat->slug">{$cat->getTr($locale)->title}</a>
+                        {/if}
+                    {/foreach}
+                </div>
+            </div>
+        </div>
+
+        <div class="dodavatelia-box" style="background-image: url('{$basePath}/images/front/sauny/dane-deaner-341768.jpg')">
+            <div class="dodavatelia">
+                <img src="{$basePath}/images/front/sauny/vajda.png" alt="">
+                <div class="hr-img"></div>
+
+                {text 15, "te"}
+
+                <div class="dodavatelia-link">
+                    {foreach $categories as $cat}
+                        {if $iterator->counter  > 3}
+                        <a n:href="Kategoria:default $cat->slug" class="blue">{$cat->getTr($locale)->title}</a>
+                        {/if}
+                    {/foreach}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,79 @@
+<h4>Správa tagů</h4>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="page-content-back">
+			<div class="row">
+				<div class="col-md-2">
+					<strong>Jméno:</strong>
+				</div>
+				<div class="col-md-4">
+					<strong>Datum od:</strong>
+				</div>
+				<div class="col-md-4">
+					<strong>Datum do:</strong>
+				</div>
+				<div class="col-md-2">
+				</div>
+			</div>
+            {foreach $testSprint->getTags() as $tag}
+                {var $tagId = $tag->getId()}
+                {form tagDate-$tagId}
+					<div class="row">
+						<div class="col-md-2">
+							<strong>{$tag->getName()}</strong>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+                                {input dateFrom class => "form-control datepickerstartDateTag"}
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+                                {input dateTo class => "form-control datepickerendDateTag"}
+							</div>
+						</div>
+						<div class="col-md-2">
+							<button n:name="send" class="btn btn-warning pull-right marg-10-top">{_is.default.edit} <span class="glyphicon glyphicon-edit"></span></button>
+						</div>
+					</div>
+                {/form}
+            {/foreach}
+		</div>
+	</div>
+</div>
+
+<script>
+    $(function() {
+        var dateFormat = "dd.mm.yy";
+        var minDate = new Date({$testSprint->getStartDate()->format("Y")},{$testSprint->getStartDate()->format("n")} - 1,{$testSprint->getStartDate()->format("j")});
+        var maxDate = new Date({$testSprint->getEndDate()->format("Y")},{$testSprint->getEndDate()->format("n")} - 1,{$testSprint->getEndDate()->format("j")});
+        var startDateTag = $( ".datepickerstartDateTag" ).datepicker({
+            dateFormat: dateFormat,
+            changeMonth: true,
+            minDate: minDate,
+            maxDate: maxDate
+        }).on("change", function() {
+            endDateTag.datepicker("option", "minDate", getDate( this ) );
+        });
+        var endDateTag = $( ".datepickerendDateTag" ).datepicker({
+            dateFormat: dateFormat,
+            changeMonth: true,
+            minDate: minDate,
+            maxDate: maxDate
+        }).on("change", function() {
+            startDateTag.datepicker("option", "maxDate", getDate( this ) );
+        });
+
+        function getDate( element ) {
+            var date;
+            try {
+                date = $.datepicker.parseDate( dateFormat, element.value );
+            } catch( error ) {
+                date = null;
+            }
+
+            return date;
+        }
+    });
+</script>

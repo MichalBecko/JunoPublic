@@ -1,0 +1,12 @@
+{block text}
+{if array_key_exists('isNewline', $attrs)}
+    {if $attrs['isNewline'] == 1}
+        <br class="clear">   
+    {/if}
+{/if}
+<div {if array_key_exists('colWidth', $attrs)}class="{$attrs['colWidth']}"{/if}>
+    <div class="checkbox col-md-12">
+        {input $field}
+    </div>
+</div>
+{/block}
