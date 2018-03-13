@@ -65,6 +65,7 @@ RUN chown -R www-data:www-data /var/www/Juno
 RUN rm -R /var/www/Juno/temp/cache/*
 RUN mkdir /var/www/Juno/www/temp && chown -R www-data /var/www/Juno/www/temp
 RUN mv /var/www/Juno/.htaccess /var/www/Juno/.htaccessZ
+RUN composer update -d /var/www/Juno/
 
 
 EXPOSE 80 3306/tcp

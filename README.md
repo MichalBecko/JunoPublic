@@ -1,5 +1,5 @@
 Testovaci container pre Juno.<br>
-
+Táto verzia neobsahuje vendor v adresári Juno. Stiahne sa dodatočne sám so vstavaným príkazom composer update. <br>
 
 Stiahneme súbory <br>
 git@git.denevy.eu:jkuna/juno-dockerfile.git
