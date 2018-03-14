@@ -1,0 +1,13 @@
+doctrine:
+    user: $DB_USER
+    password: $DB_PASS
+    dbname: $DB_NAME
+    port: 3306
+    metadata:
+        App: %appDir%
+
+database:
+            default:
+                dsn: "mysql:host=localhost;port=3306;dbname=$DB_NAME"
+                user: $DB_USER
+                password: $DB_PASS
