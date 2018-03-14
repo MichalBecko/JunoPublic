@@ -144,7 +144,8 @@ create_users_and_databases() {
    # fi
     cat /tmp/config.local.development.neon | sed -e "s/\$DB_USER/$DB_USER/" | sed -e "s/\$DB_NAME/$DB_NAME/" | sed -e "s/\$DB_PASS/$DB_PASS/" > /var/www/Juno/app/Core/config/config.local.development.neon
     mysql -u$DB_USER -p$DB_PASS $DB_NAME < /tmp/junodb_new.sql
-    fi
+    service apache2 start
+   fi
     /usr/bin/mysqladmin --defaults-file=/etc/mysql/debian.cnf shutdown  
 fi
 }
@@ -174,5 +175,5 @@ if [[ -z ${1} ]]; then
 else
   exec "$@"
 fi
-source /etc/apache2/envvars
-exec apache2 -D FOREGROUND
+#source /etc/apache2/envvars
+#exec apache2 -D FOREGROUND

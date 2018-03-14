@@ -10,7 +10,6 @@ ENV LANGUAGE en_US.UTF-8
 ENV APACHE_CONF_DIR=/etc/apache2 \
     PHP_CONF_DIR=/etc/php/7.1 \
     PHP_DATA_DIR=/var/lib/php
-COPY entrypoint2.sh /sbin/entrypoint2.sh
 
 RUN     \
         buildDeps='software-properties-common python-software-properties' \
@@ -35,7 +34,6 @@ RUN     \
         # Forward request and error logs to docker log collector
         && ln -sf /dev/stdout /var/log/apache2/access.log \
         && ln -sf /dev/stderr /var/log/apache2/error.log \
-        && chmod 755 /sbin/entrypoint2.sh \
         && chown www-data:www-data ${PHP_DATA_DIR} -Rf
 
 COPY ./configs/apache2.conf ${APACHE_CONF_DIR}/apache2.conf
@@ -63,7 +61,6 @@ RUN chmod 755 /sbin/entrypoint.sh
 
 
 RUN chown -R www-data:www-data /var/www/Juno
-#RUN rm -R /var/www/Juno/temp/cache/*
 RUN mkdir /var/www/Juno/www/temp && chown -R www-data /var/www/Juno/www/temp
 RUN mv /var/www/Juno/.htaccess /var/www/Juno/.htaccessZ
 RUN composer update -d /var/www/Juno/

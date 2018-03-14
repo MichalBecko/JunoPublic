@@ -17,13 +17,12 @@
 </blockquote>
 <p>Po dokončen&iacute; vytvorenia buildu si spust&iacute;me container.</p>
 <blockquote>
-<p><strong><span style="color: #008000;">docker run --name cb5 -p 8080:80 -d juno</span></strong></p>
+<p><strong><span style="color: #008000;">docker run --name juno -p 8080:80 -d juno</span></strong></p>
 </blockquote>
 <p>Alebo m&ocirc;žeme do pr&iacute;kazu zadať požiadavku o vytvorenie db, usera a hesla podľa vlastn&yacute;ch požiadaviek</p>
 <blockquote>
 <p><strong><span style="color: #008000;">docker run --name juno -p 8080:80 -d -e 'DB_USER=meno' -e 'DB_PASS=heslo' -e 'DB_NAME=nazov' juno</span></strong></p>
 </blockquote>
-<p>&nbsp;</p>
 <p>N&aacute;sledne e&scaron;te spust&iacute;me v containeri apache nasleduj&uacute;cim pr&iacute;kazom</p>
 <blockquote>
 <p><span style="color: #008000;"><strong>docker exec -i juno service apache2 start</strong></span></p>
