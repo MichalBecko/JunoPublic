@@ -93,10 +93,15 @@ initialize_mysql_database() {
     echo "Creating debian-sys-maint user..."
     mysql -uroot -e "CREATE USER 'debian-sys-maint'@'localhost' IDENTIFIED BY '';"
     mysql -uroot -e "GRANT ALL PRIVILEGES on *.* TO 'debian-sys-maint'@'localhost' IDENTIFIED BY '' WITH GRANT OPTION;"
+    mysql -uroot -e "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));"
     
     mysql -uroot -e "CREATE DATABASE juno;"    
     mysql -uroot -e "CREATE USER 'juno'@'%' IDENTIFIED BY 'juno';"
     mysql -uroot -e "GRANT ALL PRIVILEGES on *.* TO 'juno'@'%' IDENTIFIED BY 'juno' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+    mysql -uroot -e "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));"
+
+cat /tmp/config.local.development.neon | sed -e "s/\$DB_USER/juno/" | sed -e "s/\$DB_NAME/juno/" | sed -e "s/\$DB_PASS/juno/" > /var/www/Juno/app/Core/config/config.local.development.neon
+    mysql -u juno -pjuno juno < /tmp/junodb_new.sql
     
 #	mysql -ujuno -pjuno juno < junodb_new.sql
 
@@ -138,9 +143,13 @@ create_users_and_databases() {
             -e "GRANT ALL PRIVILEGES ON \`$db\`.* TO '${DB_USER}' IDENTIFIED BY '${DB_PASS}';"
           fi
         done
-    fi
-    /usr/bin/mysqladmin --defaults-file=/etc/mysql/debian.cnf shutdown
-  fi
+   # fi
+    cat /tmp/config.local.development.neon | sed -e "s/\$DB_USER/$DB_USER/" | sed -e "s/\$DB_NAME/$DB_NAME/" | sed -e "s/\$DB_PASS/$DB_PASS/" > /var/www/Juno/app/Core/config/config.local.development.neon
+    mysql -u$DB_USER -p$DB_PASS $DB_NAME < /tmp/junodb_new.sql
+    service apache2 start
+   fi
+    /usr/bin/mysqladmin --defaults-file=/etc/mysql/debian.cnf shutdown  
+fi
 }
 
 create_data_dir
@@ -168,3 +177,6 @@ if [[ -z ${1} ]]; then
 else
   exec "$@"
 fi
+#source /etc/apache2/envvars
+#exec apache2 -D FOREGROUND
+
