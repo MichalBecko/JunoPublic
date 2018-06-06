@@ -1,6 +1,0 @@
-{block action}
-<a href="{$presenter->link('Mailer:show', $item->getId())}" class="btn btn-custom-darkblue btn-sm btn-sm-betpad" data-tooltip="tooltip" title="{_is.mailer.showMail}"><span class="glyphicon glyphicon-envelope no-margin"></span></a>
-<button type='button' class="btn btn-danger btn-sm btn-sm-betpad" data-tooltip="tooltip" title="{_is.default.delete}" data-toggle="modal" data-target="#deleteAction" data-link="{$presenter->link('deleteMail!', $item->getId())}">
-    <span class="glyphicon glyphicon-trash" ></span>
-</button>
-{/block}

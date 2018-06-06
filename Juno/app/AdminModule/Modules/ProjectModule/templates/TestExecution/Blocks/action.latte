@@ -1,8 +1,0 @@
-{block action}
-
-{if array_key_exists($item['id'], $runningTestPlanSprintCases)}
-<span class="fa fa-clock-o" data-toggle="toggle" title="Na tomto Test Case máte spustený čas"></span>
-{/if}
-<a n:is-allowed="Privilege::TEST_EXECUTION_OPEN_TEST_CASE" href="{$presenter->link('openTestPlanSprintCase!', ["testPlanSprintCaseID" => $item['id']])}" class="btn btn-primary btn-sm btn-sm-betpad ajax"
-    data-tooltip="tooltip" title="OTVORIŤ"><span class="fa fa-external-link no-margin"></span> OTVORIŤ</a>
-{/block}
