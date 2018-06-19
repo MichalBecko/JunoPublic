@@ -18,7 +18,7 @@ RUN     \
         && add-apt-repository -y ppa:ondrej/apache2 \
         && apt-get update \
 && apt-get install -y vim nano less php7.1-sqlite3 git \
-    && apt-get install -y curl apache2 php7.1 libapache2-mod-php7.1 php7.1-cli php7.1-readline php7.1-mbstring php7.1-zip php7.1-intl php7.1-xml php7.1-json php7.1-curl php7.1-mcrypt php7.1-gd php7.1-pgsql php7.1-mysql php-pear \
+    && apt-get install -y curl apache2 php7.1 libapache2-mod-php7.1 php7.1-cli php7.1-ldap php7.1-readline php7.1-mbstring php7.1-zip php7.1-intl php7.1-xml php7.1-json php7.1-curl php7.1-mcrypt php7.1-gd php7.1-pgsql php7.1-mysql php-pear \
     # Apache settings
     && cp /dev/null ${APACHE_CONF_DIR}/conf-available/other-vhosts-access-log.conf \
     && rm ${APACHE_CONF_DIR}/sites-enabled/000-default.conf ${APACHE_CONF_DIR}/sites-available/000-default.conf \
