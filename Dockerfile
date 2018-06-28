@@ -41,11 +41,11 @@ COPY ./configs/apache2.conf ${APACHE_CONF_DIR}/apache2.conf
 COPY ./configs/app.conf ${APACHE_CONF_DIR}/sites-enabled/app.conf
 COPY ./configs/php.ini  ${PHP_CONF_DIR}/apache2/conf.d/custom.ini
 COPY ./configs/config.local.development.neon /tmp/config.local.development.neon
-COPY ./junodb_new.sql /tmp/junodb_new.sql
+#COPY ./junodb_new.sql /tmp/junodb_new.sql
 
 WORKDIR /var/www/
 RUN git clone http://jkuna:w1NxyRvgW5xHsvCWxWhF@git.denevy.eu/ArtexeSRO/Juno.git
-
+COPY /var/www/Juno/files/junodb_new.sql /tmp/junodb_new.sql
 
 ENV MYSQL_USER=mysql \
     MYSQL_DATA_DIR=/var/lib/mysql \
