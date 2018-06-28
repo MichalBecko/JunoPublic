@@ -101,7 +101,8 @@ initialize_mysql_database() {
     mysql -uroot -e "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));"
 
 cat /tmp/config.local.development.neon | sed -e "s/\$DB_USER/juno/" | sed -e "s/\$DB_NAME/juno/" | sed -e "s/\$DB_PASS/juno/" > /var/www/Juno/app/Core/config/config.local.development.neon
-    mysql -u juno -pjuno juno < /tmp/junodb_new.sql
+#    mysql -u juno -pjuno juno < /tmp/junodb_new.sql
+mysql -u juno -pjuno juno < /var/www/Juno/files/junodb_new.sql
     
 #	mysql -ujuno -pjuno juno < junodb_new.sql
 
@@ -145,7 +146,8 @@ create_users_and_databases() {
         done
    # fi
     cat /tmp/config.local.development.neon | sed -e "s/\$DB_USER/$DB_USER/" | sed -e "s/\$DB_NAME/$DB_NAME/" | sed -e "s/\$DB_PASS/$DB_PASS/" > /var/www/Juno/app/Core/config/config.local.development.neon
-    mysql -u$DB_USER -p$DB_PASS $DB_NAME < /tmp/junodb_new.sql
+    #mysql -u$DB_USER -p$DB_PASS $DB_NAME < /tmp/junodb_new.sql
+    mysql -u$DB_USER -p$DB_PASS $DB_NAME < /var/www/Juno/files/junodb_new.sql
     service apache2 start
    fi
     /usr/bin/mysqladmin --defaults-file=/etc/mysql/debian.cnf shutdown  
