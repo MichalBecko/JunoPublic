@@ -44,7 +44,7 @@ COPY ./configs/config.local.development.neon /tmp/config.local.development.neon
 #COPY ./junodb_new.sql /tmp/junodb_new.sql
 
 WORKDIR /var/www/
-RUN git clone http://jkuna:w1NxyRvgW5xHsvCWxWhF@git.denevy.eu/ArtexeSRO/Juno.git
+RUN git clone -b demo http://jkuna:w1NxyRvgW5xHsvCWxWhF@git.denevy.eu/ArtexeSRO/Juno.git
 
 ENV MYSQL_USER=mysql \
     MYSQL_DATA_DIR=/var/lib/mysql \
