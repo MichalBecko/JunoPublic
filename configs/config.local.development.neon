@@ -11,3 +11,6 @@ database:
                 dsn: "mysql:host=localhost;port=3306;dbname=$DB_NAME"
                 user: $DB_USER
                 password: $DB_PASS
+
+parameters:
+    licenceKey: "https://lic.denevy.eu/api/license/validate"
