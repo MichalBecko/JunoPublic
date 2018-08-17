@@ -63,7 +63,9 @@ RUN chmod 755 /sbin/entrypoint.sh
 RUN chown -R www-data:www-data /var/www/Juno
 RUN mkdir /var/www/Juno/www/temp && chown -R www-data /var/www/Juno/www/temp
 RUN mv /var/www/Juno/.htaccess /var/www/Juno/.htaccessZ
-RUN composer update -d /var/www/Juno/
+#RUN composer update -d /var/www/Juno/
+RUN composer install -d /var/www/Juno/
+RUN chown -R www-data:www-data /var/www/Juno
 
 
 EXPOSE 80 3306/tcp
