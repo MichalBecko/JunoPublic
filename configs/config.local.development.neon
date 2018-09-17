@@ -14,3 +14,7 @@ database:
 
 parameters:
     licenceKey: "https://lic.denevy.eu/api/license/validate"
+    
+sentry:
+        dns: https://c5204555c53246dca3f1c8cfb98143a1@sentry.io/1265207
+        enabled: false
