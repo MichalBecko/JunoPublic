@@ -44,7 +44,8 @@ COPY ./configs/config.local.development.neon /tmp/config.local.development.neon
 #COPY ./junodb_new.sql /tmp/junodb_new.sql
 
 WORKDIR /var/www/
-RUN git clone -b PreProd http://jkuna:w1NxyRvgW5xHsvCWxWhF@git.denevy.eu/ArtexeSRO/Juno.git
+RUN git clone -b PreProd http://jkuna:w1NxyRvgW5xHsvCWxWhF@git.denevy.eu/ArtexeSRO/Juno.git /tmp/Juno
+#RUN git clone https://github.com/progrium/entrykit.git /tmp/entry/
 
 #ENV MYSQL_USER=mysql \
 #    MYSQL_DATA_DIR=/var/lib/mysql \
@@ -56,20 +57,23 @@ RUN git clone -b PreProd http://jkuna:w1NxyRvgW5xHsvCWxWhF@git.denevy.eu/ArtexeS
 # && rm -rf ${MYSQL_DATA_DIR} \
 # && rm -rf /var/lib/apt/lists/*
 
-#COPY entrypoint.sh /sbin/entrypoint.sh
-#RUN chmod 755 /sbin/entrypoint.sh
+COPY entrypoint0.sh /sbin/entrypoint0.sh
+RUN chmod 755 /sbin/entrypoint0.sh
 
 
-RUN chown -R www-data:www-data /var/www/Juno
-RUN mkdir /var/www/Juno/www/temp && chown -R www-data /var/www/Juno/www/temp
-RUN mv /var/www/Juno/.htaccess /var/www/Juno/.htaccessZ
+#RUN chown -R www-data:www-data /var/www/Juno
+RUN mkdir /tmp/Juno/www/temp && chown -R www-data /tmp/Juno/www/temp
+#RUN mv /var/www/Juno/.htaccess /var/www/Juno/.htaccessZ
 #RUN composer update -d /var/www/Juno/
-RUN composer install -d /var/www/Juno/
-RUN chown -R www-data:www-data /var/www/Juno
+RUN composer install -d /tmp/Juno/
+#RUN chown -R www-data:www-data /var/www/Juno
 
 
 EXPOSE 80 3306/tcp
+VOLUME ["/var/www"]
 #VOLUME ["${MYSQL_DATA_DIR}", "${MYSQL_RUN_DIR}"]
 #ENTRYPOINT ["/sbin/entrypoint.sh"]
-CMD apachectl -D FOREGROUND
+#ENTRYPOINT ["/sbin/entrypoint0.sh"]
+CMD /sbin/entrypoint0.sh ; apachectl -D FOREGROUND
+
 #CMD ["/usr/bin/mysqld_safe"]
